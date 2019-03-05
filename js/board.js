@@ -9,4 +9,6 @@ class Board {
   takeStep() {}
   firstStep() {}
   takeStep() {}
+  placeBombs() {}
+  recUnhide() {}
 }
