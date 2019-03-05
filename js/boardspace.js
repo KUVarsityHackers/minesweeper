@@ -40,7 +40,4 @@ class Rabbit
             return "b";
         }
     }
-
-
-
 }
