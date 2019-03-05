@@ -1,5 +1,5 @@
 var gameEnded = 0; //Has the game ended? Prevents user input post-end. 0-no, 1-yes
-
+//test
 //Creates Global 2D array matching user-defined grid size
 let arr;
 let gridSize = 0;
