@@ -23,9 +23,9 @@ body {
   font-size: 5em;
 }
 
-#squareContainer {
+#board {
   text-align: center;
-  font-size: 20px;
+  font-size: 2em;
 }
 
 /* Square States */
