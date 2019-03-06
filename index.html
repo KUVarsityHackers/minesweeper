@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Minesweeper</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link href="styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-  </head>
-  <body oncontextmenu="return false;">
-    <h1 class="centeredText">Minesweeper</h1>
-    <h2 class="centeredText"></h2>
+</head>
+<body oncontextmenu="return false;">
+    <h1 id="title" class="centeredText">Minesweeper</h1>
     <div id="setup">
         <form>
-            Board Length (2 - 99):<br>
-            <input id="boardLength" type="text" name="boardSize" value="10"><br>
-            Mine Amount (minimum of 1, at most 1 less than total squares):<br>
-            <input id="mineAmount" type="text" name="mineAmount" value="20"><br>
-            <button type="button" onclick="startGame()">Create Board</button>
-        </form>  
+            <table>
+                <tr>
+                    <td><label for="boardHeight">Board Size:</label></td>
+                    <td><input id="boardHeight" max="99" min="2" type="number" value="10"> x <input id="boardWidth" max="99" min="2" type="number" value="10"></td>
+                </tr>
+                <tr>
+                    <td><label for="boardHeight">Mine Amount:</label></td>
+                    <td><input id="mineAmount" max="9800" min="0" name="mineAmount" type="number" value="20"></td>
+                </tr>
+                <tr>
+                    <td><button onclick="startGame()" type="button">Create Board</button></td>
+                </tr>
+            </table>
+        </form>
     </div>
-    <div id="squareContainer"></div>
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"
-    ></script>
-    <script src="/js/index.js"></script>
-    <div id="resetButton" class="centeredText">
-      <button onclick="location.reload();" type="button">Reset</button> 
+    <div id="board"></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js">
+    </script> 
+    <script src="js/index.js">
+    </script>
+    <div class="centered" id="resetButton">
+        <button onclick="location.reload();" type="button">Reset</button>
     </div>
-  </body>
+</body>
 </html>
