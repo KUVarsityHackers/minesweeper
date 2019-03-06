@@ -1,4 +1,5 @@
 import {BoardSpace} from './boardspace.js';
+
 export class Board {
   constructor(rows, cols, mines, flags) {
     this.numRows = rows;

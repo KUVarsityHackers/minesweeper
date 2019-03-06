@@ -1,7 +1,6 @@
 //https://codepen.io/AdrianSandu/pen/MyBQYz
 import {Board} from './board.js';
 
-// var bd = require("./board.js");
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
   const boardWidth = Number(document.getElementById("boardWidth").value);
@@ -61,7 +60,6 @@ $(".square").on("click", function() {
   let yPos = $(this).attr("data-y-coordinate");
   board.selectSpace(xPos, yPos);
 });
-
 
 $(".square").mousedown(function(e) {
   const elementClicked = $(this);
