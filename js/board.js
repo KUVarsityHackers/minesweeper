@@ -1,17 +1,17 @@
-var dt = require("./boardspace.js");
+import {BoardSpace} from './boardspace.js';
 
-class Board {
-  constructor(xsize, ysize, nummine, flags) {
-    this.numRows = xsize;
-    this.numCols = ysize;
-    this.numMines = nummine;
+export class Board {
+  constructor(rows, cols, mines, flags) {
+    this.numRows = rows;
+    this.numCols = cols;
+    this.numMines = mines;
     this.numFlags = flags;
     this.numMinesFlagged = 0;
-    this.m_board = new Array(xsize);
-    for (let x = 0; x < xsize; x++) {
-      this.m_board[x] = new Array(ysize);
-      for (let y = 0; y < ysize; y++) {
-        this.m_board[x][y] = new BoardSpace();
+    this.m_board = new Array(this.numRows);
+    for (let row = 0; row < this.numRows; row++) {
+      this.m_board[row] = new Array(this.numCols);
+      for (let col = 0; col < this.numCols; col++) {
+        this.m_board[row][col] = new BoardSpace();
       }
     }
   }

@@ -1,10 +1,6 @@
 //https://codepen.io/AdrianSandu/pen/MyBQYz
-class Board {
-  constructor(height, width) {
-      this.height = height;
-      this.width = width;
-  }
-}
+import {Board} from './board.js';
+
 function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
   const boardWidth = Number(document.getElementById("boardWidth").value);
@@ -34,7 +30,7 @@ function startGame() {
     document.getElementById("title").className = "playTitle";
     document.getElementById("resetButton").style.display = "block";
 
-    const board = new Board(boardHeight, boardWidth);
+    const board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
 
   }
@@ -49,7 +45,7 @@ function drawBoard(board) {
       let id = column + " " + row;
       let squareElement = $('<div id = "' + id + '">"');
       squareElement.addClass("square");
-      squareElement.append(arr[column][row].numNeighborMines);
+      // squareElement.append(arr[column][row].numNeighborMines);
       squareElement.attr("data-x-coordinate", column);
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
