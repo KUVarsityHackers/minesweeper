@@ -1,4 +1,4 @@
-class BoardSpace {
+export class BoardSpace {
   constructor(numberMines) {
     this.isMine = false;
     this.isFlagged = false;
