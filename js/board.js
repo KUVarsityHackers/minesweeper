@@ -20,7 +20,7 @@ export class Board {
 
   firstStep(row, col) {
     placeBombs(row, col);
-    calculateNearby();
+    calculateNearby(row, col);
     selectSpace(row, col);
   }
 
@@ -157,5 +157,28 @@ export class Board {
     } else {
       return false;
     }
+  }
+
+  calculateNearby(row, col){
+    /*
+        Determines nearby quantity of mines for a single board space
+        Pre: 
+            valid x and y coordinates
+        Post: 
+            individual boardspace knows how many mines surround it
+        Args: 
+            int row, int col
+        Returns: 
+            integer representing nearby mine count
+    */
+    let count = 0;
+    for(let i = Math.max(row-1,0); i < Math.min(row+2, this.numRows); i++ ){
+      for(let j = Math.max(col-1,0); j < Math.min(col+2, this.numCols);j++){
+          if((i != row || j != col) && this.m_board[i][j].isMine){
+            count++;
+          }
+      }
+    }
+    return(count);
   }
 };
