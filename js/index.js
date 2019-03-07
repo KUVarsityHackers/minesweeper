@@ -1,5 +1,6 @@
 //https://codepen.io/AdrianSandu/pen/MyBQYz
 import {Board} from './board.js';
+let board;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -30,14 +31,14 @@ window.startGame = function startGame() {
     document.getElementById("title").className = "playTitle";
     document.getElementById("resetButton").style.display = "block";
 
-    const board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
+    board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
 
   }
 }
 
 function drawBoard(board) {
-  $("#board").empty();
+  $("#game").empty();
   for (let row = 0; row < board.numRows; row++) {
     let rowElement = $("<div>");
     rowElement.addClass("row");
@@ -50,7 +51,7 @@ function drawBoard(board) {
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
     }
-    $("#board").append(rowElement);
+    $("#game").append(rowElement);
   }
 }
 

@@ -23,7 +23,7 @@ body {
   font-size: 5em;
 }
 
-#board {
+#game {
   text-align: center;
   font-size: 2em;
 }
@@ -90,8 +90,7 @@ body {
   display: inline-block;
   width: 100%;
   text-align: center;
-  position: absolute;              
-   top: 40%;   
+  position: absolute;    
 
 }
 #setup form {
