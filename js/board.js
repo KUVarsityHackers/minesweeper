@@ -6,6 +6,7 @@ export class Board {
     this.numCols = cols;
     this.numMines = mines;
     this.numFlags = flags;
+    //this is likely not imortant anymore
     this.numMinesFlagged = 0;
     this.m_board = new Array(this.numRows);
     for (let row = 0; row < this.numRows; row++) {
@@ -16,8 +17,18 @@ export class Board {
     }
   }
   takeStep() {}
-  firstStep() {}
-  takeStep() {}
+  
+  
+  firstStep(row, col) 
+  {
+    placeBombs(row,col);
+    calculateNearby();
+    selectSpace(row,col);
+  }
+
+  placeBombs() {}
+
+  recUnhide() {}
 
   toggleFlagSpace(row, col)
     {
@@ -73,7 +84,30 @@ export class Board {
       return false;
     }
   }
-  placeBombs() {}
-  recUnhide() {}
+
+  userWin()
+  {
+    //check to see if numMines is equal to unhidden spaces
+    unHidden = 0;
+    for (let r = 0; r< numRols; r++)
+    {
+      for (let c = 0; c < numCols; c++)
+      {
+        if (!m_board[r][c].isHidden)
+        {
+          unHidden++;
+        }
+      }
+    }
+
+    if (unHidden == this.numMines)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
 }
 
