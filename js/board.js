@@ -8,7 +8,13 @@ export class Board {
     this.numFlags = flags;
     //this is likely not imortant anymore
     this.numMinesFlagged = 0;
-    this.m_board = new Array();
+    this.m_board = [];
+    for (let i = 0; i < rows; i++){
+      this.m_board.push([]);
+      for (let j = 0; j < cols; j++){
+        this.m_board[i].push(new BoardSpace());
+      }
+    }
   }
   takeStep() {}
 
@@ -18,27 +24,99 @@ export class Board {
     selectSpace(row, col);
   }
 
-  placeBombs() {}
+  placeBombs(row, col) {
+    /*
+        Places mines randomly around map
+        Pre: 
+            valid x and y coordinates, numMines
+        Post: 
+            mines set randomly around map
+        Args: 
+            int xpos (row), int ypos (column)
+        Returns: 
+            none
+    */
 
-  recUnhide() {}
+    //initializes an array to randomly place bombs in indices
+    let maxIndex  = (this.numRows * this.numCols);
+    let mineIndex = new Array(maxIndex-1).fill(false);
+
+    //initializes certain number of bombs
+    for(let i = 0; i < this.numMines; i++){
+        mineIndex[i] = true;
+    }
+    
+    //shuffle array
+    let swap;
+    for(let i = mineIndex.length-1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i+1));
+        swap =  mineIndex[i];
+        mineIndex[i] = mineIndex[j];
+        mineIndex[j] = swap;
+    }
+
+    //populate board with bombs
+    let collison = 0;
+    for(let i = 0; i < this.numRows; i++){
+      for(let j = 0; j < this.numCols; j++){
+          if(i == row && j == col){
+            collison = 1;
+          }
+          else if(mineIndex[j + (i*this.numCols) - collison]){
+            this.m_board[i][j].isMine = true;
+          }
+      }
+    }
+
+  }
+
+  recUnhide(row, col) {
+    /*
+        Recursively unhide spaces until there are mines surrounding it
+        Pre: 
+            valid x and y coordinates
+        Post: 
+            Boardspaces are unhidden until there are nearby mines
+        Args: 
+            int xpos (row), int ypos (column)
+        Returns: 
+            No return
+    */
+
+    if(this.m_board[row][col].numMines == 0 && this.m_board[row][col].isHidden){
+      this.m_board[row][col].isHidden = false;
+      for(let i = Math.max(row-1, 0); i < Math.min(row + 2, this.numRows);i++){
+        for(let j = Math.max(col-1, 0); j < Math.min(col + 2, this.numCols);j++){
+          if(i != row || j != col){
+            this.recUnhide(i, j);
+          }
+        }
+      }
+    }
+    this.m_board[row][col].isHidden = false;
+  }
 
   toggleFlagSpace(row, col) {
     //see if the space is already flagged
-    if (m_board[row][col].isFlagged) {
-      m_board[row][col].isFlagged = false;
+    if (this.m_board[row][col].isFlagged) {
+      this.m_board[row][col].isFlagged = false;
+      let elemID = row + " " + col;
+      document.getElementById(elemID).className = "square";
 
       //update number of mines correctly marked if this is a mine
-      if (m_board[row][col].isMine) {
+      if (this.m_board[row][col].isMine) {
         this.numMinesFlagged--;
       }
     }
     //else if the space is not flagged, then remove
-    else if (!m_board[row][col].isFlagged && this.numFlags > 0) {
-      m_board[row][col].isFlagged = true;
+    else if (!this.m_board[row][col].isFlagged && this.numFlags > 0) {
+      this.m_board[row][col].isFlagged = true;
       this.numFlags--;
+      let elemID = row + " " + col;
+      document.getElementById(elemID).className = "flagged-square";
 
       //update number of mines correctly marked if this is a mine
-      if (m_board[row][col].isMine) {
+      if (this.m_board[row][col].isMine) {
         this.numMinesFlagged++;
       }
     }
@@ -50,11 +128,11 @@ export class Board {
 
   selectSpace(row, col) {
     //if mine
-    if (m_board[row][col].isMine) {
-      if (m_board[row][col].isFlagged) {
+    if (this.m_board[row][col].isMine) {
+      if (this.m_board[row][col].isFlagged) {
         return false;
       }
-      if (m_board[row][col].isMine) {
+      if (this.m_board[row][col].isMine) {
         return true;
       }
     } else {
@@ -68,7 +146,7 @@ export class Board {
     unHidden = 0;
     for (let r = 0; r < numRols; r++) {
       for (let c = 0; c < numCols; c++) {
-        if (!m_board[r][c].isHidden) {
+        if (!this.m_board[r][c].isHidden) {
           unHidden++;
         }
       }
@@ -80,4 +158,4 @@ export class Board {
       return false;
     }
   }
-}
+};
