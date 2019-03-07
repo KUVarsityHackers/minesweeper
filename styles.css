@@ -39,6 +39,9 @@ body {
   box-sizing: border-box;
   vertical-align: top;
 }
+.square:hover {
+  background-color: silver;
+}
 
 .empty-square {
   background-color: #fc9765;
@@ -90,14 +93,12 @@ body {
   display: inline-block;
   width: 100%;
   text-align: center;
-  position: absolute;    
-
+  position: absolute;
 }
 #setup form {
- display: inline-block;
- text-align: left;
+  display: inline-block;
+  text-align: left;
 }
-
 
 #setup label {
   display: inline-block;
@@ -109,14 +110,14 @@ body {
   font-size: 1em;
   text-align: left;
   width: 3em;
-  margin: .2em;
-  padding: .2em;
+  margin: 0.2em;
+  padding: 0.2em;
 }
 
 button {
   font-family: "Quicksand", sans-serif;
   font-size: 1.25em;
-  padding: .4em;
+  padding: 0.4em;
 }
 
 .invalid {
@@ -126,7 +127,6 @@ button {
 
 /* Reset Button */
 #resetButton {
-  
   display: none;
   margin-top: 20px;
 }
