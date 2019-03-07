@@ -4,19 +4,21 @@
     <title>Minesweeper</title>
     <link href="styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <script type="module" src="./js/index.js"></script>
 </head>
 <body oncontextmenu="return false;">
-    <script type="module" src="./js/index.js"></script>
-    <h1 id="title" class="centeredText">Minesweeper</h1>
+    <div>
+        <h1 id="title" class="centeredText">Minesweeper</h1>
+    </div>
     <div id="setup">
         <form>
             <table>
                 <tr>
                     <td><label for="boardHeight">Board Size:</label></td>
-                    <td><input id="boardHeight" min="2" max="50"  type="number" value="10" required> x <input id="boardWidth"  min="2" max="50" type="number" value="10" required></td>
+                    <td><input id="boardHeight" min="2" max="50" type="number" value="10" required> x <input id="boardWidth"  min="2" max="50" type="number" value="10" required></td>
                 </tr>
                 <tr>
-                    <td><label for="boardHeight">Mine Amount:</label></td>
+                    <td><label for="mineAmount">Mine Amount:</label></td>
                     <td><input id="mineAmount" min="1" max="2499" name="mineAmount" type="number" value="20" required></td>
                 </tr>
                 <tr>
@@ -25,7 +27,7 @@
             </table>
         </form>
     </div>
-    <div id="board"></div>
+    <div id="game"></div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js">
     </script>
     <div class="centered" id="resetButton">

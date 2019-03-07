@@ -1,5 +1,6 @@
 //https://codepen.io/AdrianSandu/pen/MyBQYz
 import {Board} from './board.js';
+let board;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -30,14 +31,15 @@ window.startGame = function startGame() {
     document.getElementById("title").className = "playTitle";
     document.getElementById("resetButton").style.display = "block";
 
-    const board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
+    board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
 
   }
+  
 }
 
 function drawBoard(board) {
-  $("#board").empty();
+  $("#game").empty();
   for (let row = 0; row < board.numRows; row++) {
     let rowElement = $("<div>");
     rowElement.addClass("row");
@@ -50,53 +52,57 @@ function drawBoard(board) {
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
     }
-    $("#board").append(rowElement);
+    $("#game").append(rowElement);
   }
-}
 
-$(".square").on("click", function() {
-  $(this).addClass("empty-square");
-  let xPos = $(this).attr("data-x-coordinate");
-  let yPos = $(this).attr("data-y-coordinate");
-  board.selectSpace(xPos, yPos);
-});
+  $(".square").on("click", function() {
+    $(this).addClass("empty-square");
+    let xPos = $(this).attr("data-x-coordinate");
+    let yPos = $(this).attr("data-y-coordinate");
+    board.selectSpace(xPos, yPos);
+  });
 
-$(".square").mousedown(function(e) {
-  const elementClicked = $(this);
-  const xPos = elementClicked.attr("data-x-coordinate");
-  const yPos = elementClicked.attr("data-y-coordinate");
-
-  if (e.which == 3 && gameEnded == 0) {
-    // if right-click
-    if (arr[xPos][yPos].isFlagged == 1) {
-      arr[xPos][yPos].isFlagged = 0;
-      let elemID = xPos + " " + yPos;
-      document.getElementById(elemID).className = "square";
-      numSquaresFlaggedByUser--;
-      if (arr[xPos][yPos].isBomb == 1) {
-        numSquaresCorrectlyFlaggedByUser--;
-      }
-    } else if (
-      arr[xPos][yPos].isFlagged == 0 &&
-      arr[xPos][yPos].isClicked == 0
-    ) {
-      arr[xPos][yPos].isFlagged = 1;
-      let elemID = xPos + " " + yPos;
-      document.getElementById(elemID).className = "flagged-square";
-
-      numSquaresFlaggedByUser++;
-      if (arr[xPos][yPos].isBomb == 1) {
-        numSquaresCorrectlyFlaggedByUser++;
-      }
-      if (
-        numSquaresCorrectlyFlaggedByUser == userNumOfMines &&
-        numSquaresFlaggedByUser == userNumOfMines
+  $(".square").mousedown(function(e) {
+    const elementClicked = $(this);
+    const xPos = elementClicked.attr("data-x-coordinate");
+    const yPos = elementClicked.attr("data-y-coordinate");
+  
+    if (e.which == 3 && gameEnded == 0) {
+      // if right-click
+      if (arr[xPos][yPos].isFlagged == 1) {
+        arr[xPos][yPos].isFlagged = 0;
+        let elemID = xPos + " " + yPos;
+        document.getElementById(elemID).className = "square";
+        numSquaresFlaggedByUser--;
+        if (arr[xPos][yPos].isBomb == 1) {
+          numSquaresCorrectlyFlaggedByUser--;
+        }
+      } else if (
+        arr[xPos][yPos].isFlagged == 0 &&
+        arr[xPos][yPos].isClicked == 0
       ) {
-        endScreen("win"); //end screen
+        arr[xPos][yPos].isFlagged = 1;
+        let elemID = xPos + " " + yPos;
+        document.getElementById(elemID).className = "flagged-square";
+  
+        numSquaresFlaggedByUser++;
+        if (arr[xPos][yPos].isBomb == 1) {
+          numSquaresCorrectlyFlaggedByUser++;
+        }
+        if (
+          numSquaresCorrectlyFlaggedByUser == userNumOfMines &&
+          numSquaresFlaggedByUser == userNumOfMines
+        ) {
+          endScreen("win"); //end screen
+        }
       }
     }
-  }
-});
+  });
+}
+
+
+
+
 
 // /**
 //  * Going square by square, check all neighboring mines one by one.
