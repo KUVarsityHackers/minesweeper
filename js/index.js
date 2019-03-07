@@ -1,6 +1,7 @@
 //https://codepen.io/AdrianSandu/pen/MyBQYz
 import {Board} from './board.js';
 let board;
+let gameEnded;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -33,7 +34,7 @@ window.startGame = function startGame() {
 
     board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
-
+    gameEnded = 0;
   }
   
 }
@@ -59,7 +60,7 @@ function drawBoard(board) {
     $(this).addClass("empty-square");
     let xPos = $(this).attr("data-x-coordinate");
     let yPos = $(this).attr("data-y-coordinate");
-    board.selectSpace(xPos, yPos);
+    gameEnded = board.selectSpace(xPos, yPos);
   });
 
   $(".square").mousedown(function(e) {
@@ -69,7 +70,7 @@ function drawBoard(board) {
   
     if (e.which == 3 && gameEnded == 0) {
       // if right-click
-      if (arr[xPos][yPos].isFlagged == 1) {
+      /*if (arr[xPos][yPos].isFlagged == 1) {
         arr[xPos][yPos].isFlagged = 0;
         let elemID = xPos + " " + yPos;
         document.getElementById(elemID).className = "square";
@@ -95,7 +96,8 @@ function drawBoard(board) {
         ) {
           endScreen("win"); //end screen
         }
-      }
+      }*/
+      board.toggleFlagSpace(xPos, yPos);
     }
   });
 }

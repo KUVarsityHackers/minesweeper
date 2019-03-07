@@ -1,9 +1,9 @@
 export class BoardSpace {
-  constructor(numberMines) {
+  constructor() {
     this.isMine = false;
     this.isFlagged = false;
     this.isHidden = false;
-    this.numMines = numberMines;
+    this.numMines = 0;
   }
 
   showSpace() {

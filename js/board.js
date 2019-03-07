@@ -8,7 +8,13 @@ export class Board {
     this.numFlags = flags;
     //this is likely not imortant anymore
     this.numMinesFlagged = 0;
-    this.m_board = new Array();
+    this.m_board = [];
+    for (let i = 0; i < rows; i++){
+      this.m_board.push([]);
+      for (let j = 0; j < cols; j++){
+        this.m_board[i].push(new BoardSpace());
+      }
+    }
   }
   takeStep() {}
 
@@ -94,19 +100,23 @@ export class Board {
     //see if the space is already flagged
     if (this.m_board[row][col].isFlagged) {
       this.m_board[row][col].isFlagged = false;
+      let elemID = row + " " + col;
+      document.getElementById(elemID).className = "square";
 
       //update number of mines correctly marked if this is a mine
-      if (m_board[row][col].isMine) {
+      if (this.m_board[row][col].isMine) {
         this.numMinesFlagged--;
       }
     }
     //else if the space is not flagged, then remove
-    else if (!m_board[row][col].isFlagged && this.numFlags > 0) {
+    else if (!this.m_board[row][col].isFlagged && this.numFlags > 0) {
       this.m_board[row][col].isFlagged = true;
       this.numFlags--;
+      let elemID = row + " " + col;
+      document.getElementById(elemID).className = "flagged-square";
 
       //update number of mines correctly marked if this is a mine
-      if (m_board[row][col].isMine) {
+      if (this.m_board[row][col].isMine) {
         this.numMinesFlagged++;
       }
     }
