@@ -19,6 +19,18 @@ export class Board {
   }
 
   placeBombs(row, col) {
+    /*
+        Places mines randomly around map
+        Pre: 
+            valid x and y coordinates, numMines
+        Post: 
+            mines set randomly around map
+        Args: 
+            int xpos (row), int ypos (column)
+        Returns: 
+            none
+    */
+
     //initializes an array to randomly place bombs in indices
     let maxIndex  = (this.numRows * this.numCols);
     let mineIndex = new Array(maxIndex-1).fill(false);
@@ -52,12 +64,36 @@ export class Board {
 
   }
 
-  recUnhide() {}
+  recUnhide(row, col) {
+    /*
+        Recursively unhide spaces until there are mines surrounding it
+        Pre: 
+            valid x and y coordinates
+        Post: 
+            Boardspaces are unhidden until there are nearby mines
+        Args: 
+            int xpos (row), int ypos (column)
+        Returns: 
+            No return
+    */
+
+    if(this.m_board[row][col].numMines == 0 && this.m_board[row][col].isHidden){
+      this.m_board[row][col].isHidden = false;
+      for(let i = Math.max(row-1, 0); i < Math.min(row + 2, this.numRows);i++){
+        for(let j = Math.max(col-1, 0); j < Math.min(col + 2, this.numCols);j++){
+          if(i != row || j != col){
+            this.recUnhide(i, j);
+          }
+        }
+      }
+    }
+    this.m_board[row][col].isHidden = false;
+  }
 
   toggleFlagSpace(row, col) {
     //see if the space is already flagged
-    if (m_board[row][col].isFlagged) {
-      m_board[row][col].isFlagged = false;
+    if (this.m_board[row][col].isFlagged) {
+      this.m_board[row][col].isFlagged = false;
 
       //update number of mines correctly marked if this is a mine
       if (m_board[row][col].isMine) {
@@ -66,7 +102,7 @@ export class Board {
     }
     //else if the space is not flagged, then remove
     else if (!m_board[row][col].isFlagged && this.numFlags > 0) {
-      m_board[row][col].isFlagged = true;
+      this.m_board[row][col].isFlagged = true;
       this.numFlags--;
 
       //update number of mines correctly marked if this is a mine
@@ -82,11 +118,11 @@ export class Board {
 
   selectSpace(row, col) {
     //if mine
-    if (m_board[row][col].isMine) {
-      if (m_board[row][col].isFlagged) {
+    if (this.m_board[row][col].isMine) {
+      if (this.m_board[row][col].isFlagged) {
         return false;
       }
-      if (m_board[row][col].isMine) {
+      if (this.m_board[row][col].isMine) {
         return true;
       }
     } else {
@@ -100,7 +136,7 @@ export class Board {
     unHidden = 0;
     for (let r = 0; r < numRols; r++) {
       for (let c = 0; c < numCols; c++) {
-        if (!m_board[r][c].isHidden) {
+        if (!this.m_board[r][c].isHidden) {
           unHidden++;
         }
       }
