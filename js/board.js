@@ -18,7 +18,39 @@ export class Board {
     selectSpace(row, col);
   }
 
-  placeBombs() {}
+  placeBombs(row, col) {
+    //initializes an array to randomly place bombs in indices
+    let maxIndex  = (this.numRows * this.numCols);
+    let mineIndex = new Array(maxIndex-1).fill(false);
+
+    //initializes certain number of bombs
+    for(let i = 0; i < this.numMines; i++){
+        mineIndex[i] = true;
+    }
+    
+    //shuffle array
+    let swap;
+    for(let i = mineIndex.length-1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i+1));
+        swap =  mineIndex[i];
+        mineIndex[i] = mineIndex[j];
+        mineIndex[j] = swap;
+    }
+
+    //populate board with bombs
+    let collison = 0;
+    for(let i = 0; i < this.numRows; i++){
+      for(let j = 0; j < this.numCols; j++){
+          if(i == row && j == col){
+            collison = 1;
+          }
+          else if(mineIndex[j + (i*this.numCols) - collison]){
+            this.m_board[i][j].isMine = true;
+          }
+      }
+    }
+
+  }
 
   recUnhide() {}
 
