@@ -5,36 +5,33 @@ Powerups:
 3. Lose Time (-10%)
 
 */
-import {Board} from './board.js';
+import { Board } from "./board.js";
 let board;
 let gameEnded;
-
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
   const boardWidth = Number(document.getElementById("boardWidth").value);
   const numOfMines = Number(document.getElementById("mineAmount").value);
 
-  
   const validBoardWidth = boardWidth >= 2 && boardWidth <= 50;
   const validBoardHeight = boardHeight >= 2 && boardHeight <= 50;
-  const validNumOfMines = numOfMines >= 1 && numOfMines < boardHeight*boardWidth;
+  const validNumOfMines =
+    numOfMines >= 1 && numOfMines < boardHeight * boardWidth;
 
   const validGrid = validBoardWidth && validBoardHeight && validNumOfMines;
 
   if (!validGrid) {
-       
-        if (!validBoardHeight) {
-          document.getElementById("boardHeight").classList.add("invalid");
-        }
-        if (!validBoardWidth) {
-          document.getElementById("boardWidth").classList.add("invalid");
-        }
-        if (!validNumOfMines) {
-          document.getElementById("mineAmount").classList.add("invalid");
-        }
-  }
-  else {
+    if (!validBoardHeight) {
+      document.getElementById("boardHeight").classList.add("invalid");
+    }
+    if (!validBoardWidth) {
+      document.getElementById("boardWidth").classList.add("invalid");
+    }
+    if (!validNumOfMines) {
+      document.getElementById("mineAmount").classList.add("invalid");
+    }
+  } else {
     document.getElementById("setup").style.display = "none";
     document.getElementById("title").className = "playTitle";
     document.getElementById("resetButton").style.display = "block";
@@ -43,8 +40,7 @@ window.startGame = function startGame() {
     drawBoard(board);
     gameEnded = 0;
   }
-  
-}
+};
 
 function drawBoard(board) {
   $("#game").empty();
@@ -62,19 +58,24 @@ function drawBoard(board) {
     }
     $("#game").append(rowElement);
   }
-
+  let takenFirstStep = false;
   $(".square").on("click", function() {
     $(this).addClass("empty-square");
     let xPos = $(this).attr("data-x-coordinate");
     let yPos = $(this).attr("data-y-coordinate");
-    gameEnded = board.selectSpace(xPos, yPos);
+    if (!takenFirstStep) {
+      gameEnded = board.firstStep(xPos, yPos);
+      takenFirstStep = true;
+    } else {
+      gameEnded = board.takeStep(xPos, yPos);
+    }
   });
 
   $(".square").mousedown(function(e) {
     const elementClicked = $(this);
     const xPos = elementClicked.attr("data-x-coordinate");
     const yPos = elementClicked.attr("data-y-coordinate");
-  
+
     if (e.which == 3 && gameEnded == 0) {
       // if right-click
       /*if (arr[xPos][yPos].isFlagged == 1) {
@@ -108,10 +109,6 @@ function drawBoard(board) {
     }
   });
 }
-
-
-
-
 
 // /**
 //  * Going square by square, check all neighboring mines one by one.
@@ -173,7 +170,6 @@ function drawBoard(board) {
 //   }
 // }
 
-
 // function allNonMinesFound() {
 //   for (let x = 0; x < gridSize; x++) {
 //     for (let y = 0; y < gridSize; y++) {
@@ -196,51 +192,44 @@ function endScreen(condition) {
   gameEnded = 1;
 }
 
-//Handle countdown 
+//Handle countdown
 //Taken from https://stackoverflow.com/questions/20618355/the-simplest-possible-javascript-countdown-timer
 let timer = 0;
 function startTimer(duration, display) {
-  timer = duration, minutes, seconds;
-  setInterval(function () {
-      minutes = parseInt(timer / 60, 10)
-      seconds = parseInt(timer % 60, 10);
+  (timer = duration), minutes, seconds;
+  setInterval(function() {
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
 
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-      display.textContent = minutes + ":" + seconds;
+    display.textContent = minutes + ":" + seconds;
 
-      if (--timer < 0) {
-          timer = duration;
-      }
+    if (--timer < 0) {
+      timer = duration;
+    }
   }, 1000);
 }
 
-window.onload = function () {
+window.onload = function() {
   var fiveMinutes = 60 * 5,
-      display = document.querySelector('#time');
+    display = document.querySelector("#time");
   startTimer(fiveMinutes, display);
 };
 
-function addTime()
-{
+function addTime() {
   startTimer(timer + 30, display);
 }
 
-console.log("above func call")
+console.log("above func call");
 removeTime();
 
-
-function removeTime()
-{
-  console.log("func run")
-  if (timer > 30)
-  {
+function removeTime() {
+  console.log("func run");
+  if (timer > 30) {
     startTimer(timer - 30, display);
-  }
-  else
-  {
+  } else {
     startTimer(0, display);
   }
 }
-

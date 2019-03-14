@@ -16,12 +16,16 @@ export class Board {
       }
     }
   }
-  takeStep() {}
+  takeStep(row, col) {
+    console.log("takeStep");
+    this.selectSpace(row, col);
+  }
 
   firstStep(row, col) {
-    placeBombs(row, col);
-    calculateNearby(row, col);
-    selectSpace(row, col);
+    console.log("firststep");
+    this.placeBombs(row, col);
+    this.calculateNearby(row, col);
+    this.selectSpace(row, col);
   }
 
   placeBombs(row, col) {
