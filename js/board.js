@@ -181,4 +181,28 @@ export class Board {
     }
     return(count);
   }
+
+  freeSpaceReveal()
+  {
+  /*
+
+
+
+  */
+    //generate random number less modulo rows and cols
+    //check if this space is unhidden and if it's a mine - never click on a mine
+    let randRow = -1;
+    let randCol = -1;
+    
+    while (randRow < -1 || randCol < -1 || randRow >=this.numRows || randCol >= this.numCols ||
+      (this.m_board[randRow][randCol].isHidden && !this.m_board[randRow][randCol].isMine))
+    {
+      randRow = Math.floor((Math.random() * 1000) + 1) % this.numRows;
+      randCol = Math.floor((Math.random() * 1000) + 1) % this.numCols;
+    }
+
+    this.m_board[randRow][randCol].isHidden = false;
+
+  }
+
 };

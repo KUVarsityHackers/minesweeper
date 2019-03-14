@@ -1,4 +1,10 @@
-//https://codepen.io/AdrianSandu/pen/MyBQYz
+/*
+Powerups:
+1. Extra Time (10%)
+2. Free space reveal (single, random space)
+3. Lose Time (-10%)
+
+*/
 import {Board} from './board.js';
 let board;
 let gameEnded;
@@ -192,9 +198,9 @@ function endScreen(condition) {
 
 //Handle countdown 
 //Taken from https://stackoverflow.com/questions/20618355/the-simplest-possible-javascript-countdown-timer
-
+let timer = 0;
 function startTimer(duration, display) {
-  var timer = duration, minutes, seconds;
+  timer = duration, minutes, seconds;
   setInterval(function () {
       minutes = parseInt(timer / 60, 10)
       seconds = parseInt(timer % 60, 10);
@@ -215,4 +221,26 @@ window.onload = function () {
       display = document.querySelector('#time');
   startTimer(fiveMinutes, display);
 };
+
+function addTime()
+{
+  startTimer(timer + 30, display);
+}
+
+console.log("above func call")
+removeTime();
+
+
+function removeTime()
+{
+  console.log("func run")
+  if (timer > 30)
+  {
+    startTimer(timer - 30, display);
+  }
+  else
+  {
+    startTimer(0, display);
+  }
+}
 
