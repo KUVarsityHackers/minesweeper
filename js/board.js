@@ -9,9 +9,9 @@ export class Board {
     //this is likely not imortant anymore
     this.numMinesFlagged = 0;
     this.m_board = [];
-    for (let i = 0; i < rows; i++){
+    for (let i = 0; i < rows; i++) {
       this.m_board.push([]);
-      for (let j = 0; j < cols; j++){
+      for (let j = 0; j < cols; j++) {
         this.m_board[i].push(new BoardSpace());
       }
     }
@@ -38,36 +38,34 @@ export class Board {
     */
 
     //initializes an array to randomly place bombs in indices
-    let maxIndex  = (this.numRows * this.numCols);
-    let mineIndex = new Array(maxIndex-1).fill(false);
+    let maxIndex = this.numRows * this.numCols;
+    let mineIndex = new Array(maxIndex - 1).fill(false);
 
     //initializes certain number of bombs
-    for(let i = 0; i < this.numMines; i++){
-        mineIndex[i] = true;
+    for (let i = 0; i < this.numMines; i++) {
+      mineIndex[i] = true;
     }
-    
+
     //shuffle array
     let swap;
-    for(let i = mineIndex.length-1; i > 0; i--){
-        const j = Math.floor(Math.random() * (i+1));
-        swap =  mineIndex[i];
-        mineIndex[i] = mineIndex[j];
-        mineIndex[j] = swap;
+    for (let i = mineIndex.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      swap = mineIndex[i];
+      mineIndex[i] = mineIndex[j];
+      mineIndex[j] = swap;
     }
 
     //populate board with bombs
     let collison = 0;
-    for(let i = 0; i < this.numRows; i++){
-      for(let j = 0; j < this.numCols; j++){
-          if(i == row && j == col){
-            collison = 1;
-          }
-          else if(mineIndex[j + (i*this.numCols) - collison]){
-            this.m_board[i][j].isMine = true;
-          }
+    for (let i = 0; i < this.numRows; i++) {
+      for (let j = 0; j < this.numCols; j++) {
+        if (i == row && j == col) {
+          collison = 1;
+        } else if (mineIndex[j + i * this.numCols - collison]) {
+          this.m_board[i][j].isMine = true;
+        }
       }
     }
-
   }
 
   recUnhide(row, col) {
@@ -83,11 +81,22 @@ export class Board {
             No return
     */
 
-    if(this.m_board[row][col].numMines == 0 && this.m_board[row][col].isHidden){
+    if (
+      this.m_board[row][col].numMines == 0 &&
+      this.m_board[row][col].isHidden
+    ) {
       this.m_board[row][col].isHidden = false;
-      for(let i = Math.max(row-1, 0); i < Math.min(row + 2, this.numRows);i++){
-        for(let j = Math.max(col-1, 0); j < Math.min(col + 2, this.numCols);j++){
-          if(i != row || j != col){
+      for (
+        let i = Math.max(row - 1, 0);
+        i < Math.min(row + 2, this.numRows);
+        i++
+      ) {
+        for (
+          let j = Math.max(col - 1, 0);
+          j < Math.min(col + 2, this.numCols);
+          j++
+        ) {
+          if (i != row || j != col) {
             this.recUnhide(i, j);
           }
         }
@@ -136,7 +145,7 @@ export class Board {
         return true;
       }
     } else {
-      recUnhide(row, col);
+      this.recUnhide(row, col);
       return false;
     }
   }
@@ -159,7 +168,7 @@ export class Board {
     }
   }
 
-  calculateNearby(row, col){
+  calculateNearby(row, col) {
     /*
         Determines nearby quantity of mines for a single board space
         Pre: 
@@ -172,19 +181,26 @@ export class Board {
             integer representing nearby mine count
     */
     let count = 0;
-    for(let i = Math.max(row-1,0); i < Math.min(row+2, this.numRows); i++ ){
-      for(let j = Math.max(col-1,0); j < Math.min(col+2, this.numCols);j++){
-          if((i != row || j != col) && this.m_board[i][j].isMine){
-            count++;
-          }
+    for (
+      let i = Math.max(row - 1, 0);
+      i < Math.min(row + 2, this.numRows);
+      i++
+    ) {
+      for (
+        let j = Math.max(col - 1, 0);
+        j < Math.min(col + 2, this.numCols);
+        j++
+      ) {
+        if ((i != row || j != col) && this.m_board[i][j].isMine) {
+          count++;
+        }
       }
     }
-    return(count);
+    return count;
   }
 
-  freeSpaceReveal()
-  {
-  /*
+  freeSpaceReveal() {
+    /*
 
 
 
@@ -193,16 +209,19 @@ export class Board {
     //check if this space is unhidden and if it's a mine - never click on a mine
     let randRow = -1;
     let randCol = -1;
-    
-    while (randRow < -1 || randCol < -1 || randRow >=this.numRows || randCol >= this.numCols ||
-      (this.m_board[randRow][randCol].isHidden && !this.m_board[randRow][randCol].isMine))
-    {
-      randRow = Math.floor((Math.random() * 1000) + 1) % this.numRows;
-      randCol = Math.floor((Math.random() * 1000) + 1) % this.numCols;
+
+    while (
+      randRow < -1 ||
+      randCol < -1 ||
+      randRow >= this.numRows ||
+      randCol >= this.numCols ||
+      (this.m_board[randRow][randCol].isHidden &&
+        !this.m_board[randRow][randCol].isMine)
+    ) {
+      randRow = Math.floor(Math.random() * 1000 + 1) % this.numRows;
+      randCol = Math.floor(Math.random() * 1000 + 1) % this.numCols;
     }
 
     this.m_board[randRow][randCol].isHidden = false;
-
   }
-
-};
+}
