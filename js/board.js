@@ -20,7 +20,7 @@ export class Board {
     console.log("takeStep");
     this.selectSpace(row, col);
     if (this.m_board[row][col].isMine) {
-      return false;
+      return true;
     }
   }
 

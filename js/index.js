@@ -69,7 +69,11 @@ function drawBoard(board) {
     } else {
       gameEnded = board.takeStep(xPos, yPos);
     }
-    show();
+    if (!gameEnded) {
+      show();
+    } else {
+      failShowMines();
+    }
   });
 
   $(".square").mousedown(function(e) {
@@ -264,7 +268,7 @@ function show() {
 function failShowMines() {
   for (let x = 0; x < board.numRows; x++) {
     for (let y = 0; y < board.numCols; y++) {
-      if (board.m_arr[x][y].isMine == true) {
+      if (board.m_board[x][y].isMine == true) {
         //If it's a bomb, show it as 'exploded'
         let elemID = x + " " + y;
         document.getElementById(elemID).className = "exploded-square";
