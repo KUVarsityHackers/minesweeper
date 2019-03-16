@@ -69,6 +69,7 @@ function drawBoard(board) {
     } else {
       gameEnded = board.takeStep(xPos, yPos);
     }
+    show();
   });
 
   $(".square").mousedown(function(e) {
@@ -231,5 +232,36 @@ function removeTime() {
     startTimer(timer - 30, display);
   } else {
     startTimer(0, display);
+  }
+}
+
+function show() {
+  let printer = [];
+  for (let x = 0; x < board.numRows; x++) {
+    for (let y = 0; y < board.numCols; y++) {
+      printer.push(board.m_board[x][y].getSpace());
+    }
+    console.log(printer);
+    printer = [];
+  }
+  for (let x = 0; x < board.numRows; x++) {
+    for (let y = 0; y < board.numCols; y++) {
+      if (board.m_board[x][y].getSpace() == "f") {
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "flagged-square";
+      }
+      /*else if(typeof(board.m_board[x][y].getSpace()) == "number"){
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "empty-square";
+        document.getElementById(elemID).innerHTML = board.m_board[x][y].getSpace();
+        if (board.m_board[x][y].getSpace() == "0") {
+          document.getElementById(elemID).className += "";
+        }
+      }
+      else{
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "exploded-square";
+      }*/
+    }
   }
 }

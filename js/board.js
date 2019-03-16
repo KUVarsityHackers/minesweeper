@@ -19,6 +19,7 @@ export class Board {
   takeStep(row, col) {
     console.log("takeStep");
     this.selectSpace(row, col);
+    return this;
   }
 
   firstStep(row, col) {
@@ -26,6 +27,7 @@ export class Board {
     this.placeBombs(row, col);
     this.calculateNearby(row, col);
     this.selectSpace(row, col);
+    return this;
   }
 
   placeBombs(row, col) {

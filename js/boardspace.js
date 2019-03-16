@@ -16,11 +16,11 @@ export class BoardSpace {
 
   getSpace() {
     if (this.isFlagged) {
-      return false;
-    } else if (!this.isMine) {
-      return this.numMines;
+      return "f";
     } else if (this.isHidden) {
       return "_";
+    } else if (!this.isMine) {
+      return this.numMines;
     } else {
       return "b";
     }
