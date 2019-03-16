@@ -246,22 +246,29 @@ function show() {
   }
   for (let x = 0; x < board.numRows; x++) {
     for (let y = 0; y < board.numCols; y++) {
-      if (board.m_board[x][y].getSpace() == "f") {
+      if (typeof board.m_board[x][y].getSpace() == "number") {
+        let elemID = x + " " + y;
+        document.getElementById(elemID).className = "empty-square";
+        if (board.m_board[x][y].getSpace() != 0) {
+          document.getElementById(elemID).innerHTML = board.m_board[x][
+            y
+          ].getSpace();
+        }
+      } else if (board.m_board[x][y].getSpace() == "f") {
         let elemID = x + " " + y;
         document.getElementById(elemID).className = "flagged-square";
       }
-      /*else if(typeof(board.m_board[x][y].getSpace()) == "number"){
-        let elemID = x + " " + y;
-        document.getElementById(elemID).className = "empty-square";
-        document.getElementById(elemID).innerHTML = board.m_board[x][y].getSpace();
-        if (board.m_board[x][y].getSpace() == "0") {
-          document.getElementById(elemID).className += "";
-        }
-      }
-      else{
+    }
+  }
+}
+function failShowMines() {
+  for (let x = 0; x < board.numRows; x++) {
+    for (let y = 0; y < board.numCols; y++) {
+      if (board.m_arr[x][y].isMine == true) {
+        //If it's a bomb, show it as 'exploded'
         let elemID = x + " " + y;
         document.getElementById(elemID).className = "exploded-square";
-      }*/
+      }
     }
   }
 }

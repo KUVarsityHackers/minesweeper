@@ -19,15 +19,16 @@ export class Board {
   takeStep(row, col) {
     console.log("takeStep");
     this.selectSpace(row, col);
-    return this;
+    if (this.m_board[row][col].isMine) {
+      return false;
+    }
   }
 
   firstStep(row, col) {
     console.log("firststep");
     this.placeBombs(row, col);
-    this.calculateNearby(row, col);
+    this.calculateAround();
     this.selectSpace(row, col);
-    return this;
   }
 
   placeBombs(row, col) {
@@ -171,6 +172,13 @@ export class Board {
       return true;
     } else {
       return false;
+    }
+  }
+  calculateAround() {
+    for (let x = 0; x < this.numRows; x++) {
+      for (let y = 0; y < this.numCols; y++) {
+        this.m_board[x][y].numMines = this.calculateNearby(x, y);
+      }
     }
   }
 
