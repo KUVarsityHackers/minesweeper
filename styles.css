@@ -13,6 +13,8 @@ body {
 }
 .centered {
   text-align: center;
+  width: 100%;
+  overflow: auto;
 }
 
 .centeredText {
@@ -27,9 +29,12 @@ body {
 
 #game {
   text-align: center;
-  font-size: 2em;
+  font-size: 1em;
 }
 
+#slot {
+  display: none;
+}
 /* Square States */
 
 .square {
@@ -95,7 +100,6 @@ body {
   display: inline-block;
   width: 100%;
   text-align: center;
-  position: absolute;
 }
 #setup form {
   display: inline-block;

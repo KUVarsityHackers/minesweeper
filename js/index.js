@@ -5,9 +5,13 @@ Powerups:
 3. Lose Time (-10%)
 
 */
+
+
 import { Board } from "./board.js";
+
 let board;
-let gameEnded;
+let gameEnded = false;
+const fiveMinutes = 60 * 5;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -34,11 +38,12 @@ window.startGame = function startGame() {
   } else {
     document.getElementById("setup").style.display = "none";
     document.getElementById("title").className = "playTitle";
-    document.getElementById("resetButton").style.display = "block";
 
     board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
-    gameEnded = 0;
+    
+    document.getElementById("slot").style.display = "block";
+    document.getElementById("resetButton").style.display = "block";
   }
 };
 
@@ -203,7 +208,8 @@ function endScreen(condition) {
 //Taken from https://stackoverflow.com/questions/20618355/the-simplest-possible-javascript-countdown-timer
 let timer = 0;
 function startTimer(duration, display) {
-  (timer = duration), minutes, seconds;
+  (timer = duration);
+  let minutes, seconds;
   setInterval(function() {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -220,12 +226,12 @@ function startTimer(duration, display) {
 }
 
 window.onload = function() {
-  var fiveMinutes = 60 * 5,
-    display = document.querySelector("#time");
+  let display = document.querySelector("#time");
   startTimer(fiveMinutes, display);
 };
 
 function addTime() {
+  let display = document.querySelector("#time");
   startTimer(timer + 30, display);
 }
 
@@ -234,6 +240,7 @@ removeTime();
 
 function removeTime() {
   console.log("func run");
+  let display = document.querySelector("#time");
   if (timer > 30) {
     startTimer(timer - 30, display);
   } else {
