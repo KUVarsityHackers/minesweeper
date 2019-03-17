@@ -48,8 +48,6 @@ window.startGame = function startGame() {
 };
 
 function drawBoard(board) {
-  document.getElementById("wheel").setAttribute("class", "");
-  document.getElementById("clickToSpin").setAttribute("class", "");
   $("#game").empty();
   for (let row = 0; row < board.numRows; row++) {
     let rowElement = $("<div>");
@@ -58,7 +56,6 @@ function drawBoard(board) {
       let id = col + " " + row;
       let squareElement = $('<div id = "' + id + '">"');
       squareElement.addClass("square");
-      // squareElement.append(arr[column][row].numNeighborMines);
       squareElement.attr("data-x-coordinate", col);
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
