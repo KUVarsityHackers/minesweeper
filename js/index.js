@@ -43,6 +43,8 @@ window.startGame = function startGame() {
 };
 
 function drawBoard(board) {
+  document.getElementById("wheel").setAttribute("class", "");
+  document.getElementById("clickToSpin").setAttribute("class", "");
   $("#game").empty();
   for (let row = 0; row < board.numRows; row++) {
     let rowElement = $("<div>");
@@ -58,7 +60,6 @@ function drawBoard(board) {
     }
     $("#game").append(rowElement);
   }
-
   let takenFirstStep = false;
   $(".square").on("click", function() {
     $(this).addClass("empty-square");
@@ -66,8 +67,6 @@ function drawBoard(board) {
     let yPos = $(this).attr("data-y-coordinate");
     if (!takenFirstStep) {
       gameEnded = board.firstStep(xPos, yPos);
-      document.getElementById("wheel").setAttribute("class", "");
-      document.getElementById("clickToSpin").setAttribute("class", "");
       takenFirstStep = true;
     } else {
       gameEnded = board.takeStep(xPos, yPos);
