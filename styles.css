@@ -8,7 +8,9 @@ body {
   background-color: #e66565;
   font-family: "Quicksand", sans-serif;
 }
-
+.hidden {
+  display: none;
+}
 .centered {
   text-align: center;
 }
