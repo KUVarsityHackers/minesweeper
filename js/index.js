@@ -49,9 +49,11 @@ window.startGame = function startGame() {
 
 function drawBoard(board) {
   show(board);
-  $(".square").on("click", function() {
-    let xPos = $(this).attr("data-x-coordinate");
-    let yPos = $(this).attr("data-y-coordinate");
+  $(".square").on("click", function(e) {
+
+    let xPos = Number($(this).attr("data-x-coordinate"));
+    let yPos = Number($(this).attr("data-y-coordinate"));
+    console.log("run:" + yPos, xPos);
     if (!takenFirstStep) {
       board.firstStep(yPos, xPos);
       takenFirstStep = true;
@@ -68,39 +70,8 @@ function drawBoard(board) {
     const elementClicked = $(this);
     const xPos = elementClicked.attr("data-x-coordinate");
     const yPos = elementClicked.attr("data-y-coordinate");
-    console.log("right click" + String(e.which) + " game: " + String(gameEnded));
-    if (e.which == 3 && gameEnded == false) {
-      // if right-click
-      /*if (arr[xPos][yPos].isFlagged == 1) {
-        arr[xPos][yPos].isFlagged = 0;
-        let elemID = xPos + " " + yPos;
-        document.getElementById(elemID).className = "square";
-        numSquaresFlaggedByUser--;
-        if (arr[xPos][yPos].isBomb == 1) {
-          numSquaresCorrectlyFlaggedByUser--;
-        }
-      } else if (
-        arr[xPos][yPos].isFlagged == 0 &&
-        arr[xPos][yPos].isClicked == 0
-      ) {
-        arr[xPos][yPos].isFlagged = 1;
-        let elemID = xPos + " " + yPos;
-        document.getElementById(elemID).className = "flagged-square";
-  
-        numSquaresFlaggedByUser++;
-        if (arr[xPos][yPos].isBomb == 1) {
-          numSquaresCorrectlyFlaggedByUser++;
-        }
-        if (
-          numSquaresCorrectlyFlaggedByUser == userNumOfMines &&
-          numSquaresFlaggedByUser == userNumOfMines
-        ) {
-          endScreen("win"); //end screen
-        }
-      }*/
-      
+    if (e.which == 3 && gameEnded == false) {   
       board.toggleFlagSpace(yPos, xPos);
-
       drawBoard(board)
     }
   });
@@ -186,7 +157,7 @@ function endScreen(condition) {
   } else {
     alert("Game Over. Try again?");
   }
-  gameEnded = 1;
+  gameEnded = true;
 }
 
 //Handle countdown
@@ -220,7 +191,6 @@ function addTime() {
   startTimer(timer + 30, display);
 }
 
-console.log("above func call");
 removeTime();
 
 function removeTime() {
@@ -234,16 +204,13 @@ function removeTime() {
 }
 
 function show(board) {
-  console.log(board);
   $("#game").empty();
-
   for (let row = 0; row < board.numRows; row++) {
     let rowElement = $("<div>");
     rowElement.addClass("row");
 
     for (let col = 0; col < board.numCols; col++) {
-      let id = col + " " + row;
-      let squareElement = $('<div id = "' + id + '">"');
+      let squareElement = $("<div>");
       let square = board.m_board[row][col];
       if (!square.isHidden) {
         if (square.isMine) {
@@ -262,12 +229,9 @@ function show(board) {
         squareElement.addClass("flagged-square");
       }
     }
-
       squareElement.attr("data-x-coordinate", col);
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
-
-      
     }
     $("#game").append(rowElement);
   }

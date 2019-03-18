@@ -17,34 +17,16 @@ export class Board {
     }
   }
   takeStep(row, col) {
-    console.log("takeStep");
-    this.selectSpace(row, col);
-    if (this.m_board[row][col].isMine) {
-      return true;
-    }
+    return this.selectSpace(row, col);
   }
 
   firstStep(row, col) {
-    console.log("firststep");
     this.placeBombs(row, col);
     this.calculateAround();
     this.selectSpace(row, col);
   }
 
   placeBombs(row, col) {
-    /*
-        Places mines randomly around map
-        Pre: 
-            valid x and y coordinates, numMines
-        Post: 
-            mines set randomly around map
-        Args: 
-            int xpos (row), int ypos (column)
-        Returns: 
-            none
-    */
-
-    //initializes an array to randomly place bombs in indices
     let maxIndex = this.numRows * this.numCols;
     let mineIndex = new Array(maxIndex - 1).fill(false);
 
@@ -83,28 +65,28 @@ export class Board {
         Post: 
             Boardspaces are unhidden until there are nearby mines
         Args: 
-            int xpos (row), int ypos (column)
+            int row, int col
         Returns: 
             No return
     */
-
     this.m_board[row][col].isHidden = false;
-    if (this.m_board[row][col].numMines == 0 && !this.m_board[row][col].isMine && !this.m_board[row][col].isFlagged) {
-      for (
-        let i = Math.max(row - 1, 0);
-        i < Math.min(row + 2, this.numRows);
-        i++
-      ) {
-        for (
-          let j = Math.max(col - 1, 0);
-          j < Math.min(col + 2, this.numCols);
-          j++
-        ) {
-          if (this.m_board[i][j].isHidden && !this.m_board[i][j].isMine && !this.m_board[i][j].isFlagged) {
-            this.recUnhide(i, j);
+    if (this.m_board[row][col].numMines == 0 && (!this.m_board[row][col].isMine) && (!this.m_board[row][col].isFlagged)) {
+      for (let curRow = Math.max(row - 1, 0); curRow < Math.min(row + 2, this.numRows); curRow++) {
+        for (let curCol = Math.max(col - 1, 0); curCol < Math.min(col + 2, this.numCols); curCol++) {
+          if(this.m_board[curRow][curCol].isHidden && (!this.m_board[curRow][curCol].isMine) && (!this.m_board[curRow][curCol].isFlagged))
+          {
+            if(this.m_board[curRow][curCol].numMines == 0) {
+              console.log("Rec unhide: " + curRow + ", " + curCol + " from " + row + ", " + col);
+              this.recUnhide(curRow, curCol);
+            }
+            else {
+              console.log("Type: " + String(typeof col));
+              console.log("Normal unhide: " + curRow + ", " + curCol + " from " + row + ", " + col + "Max: " + Math.min(row + 2, this.numRows) + ", " + Math.min(col + 2, this.numCols));
+              this.m_board[curRow][curCol].isHidden = false;
+            }
           }
-        }
-      }
+       }
+     }
     }
   }
 
@@ -140,13 +122,14 @@ export class Board {
       if (this.m_board[row][col].isFlagged) {
         return false;
       }
-      if (this.m_board[row][col].isMine) {
-        return true;
+      return true;
+    } else if (!this.m_board[row][col].isFlagged) {
+      this.m_board[row][col].isHidden = false;
+      if(this.m_board[row][col].numMines == 0) {
+       this.recUnhide(row, col);
       }
-    } else {
-      this.recUnhide(row, col);
-      return false;
     }
+    return false;
   }
 
   userWin() {
@@ -167,9 +150,9 @@ export class Board {
     }
   }
   calculateAround() {
-    for (let x = 0; x < this.numRows; x++) {
-      for (let y = 0; y < this.numCols; y++) {
-        this.m_board[x][y].numMines = this.calculateNearby(x, y);
+    for (let y = 0; y < this.numRows; y++) {
+      for (let x = 0; x < this.numCols; x++) {
+        this.m_board[y][x].numMines = this.calculateNearby(y, x);
       }
     }
   }
@@ -186,18 +169,13 @@ export class Board {
         Returns: 
             integer representing nearby mine count
     */
+    if(this.m_board[row][col].isMine) {
+      return 0;
+    }
     let count = 0;
-    for (
-      let i = Math.max(row - 1, 0);
-      i < Math.min(row + 2, this.numRows);
-      i++
-    ) {
-      for (
-        let j = Math.max(col - 1, 0);
-        j < Math.min(col + 2, this.numCols);
-        j++
-      ) {
-        if ((i != row || j != col) && this.m_board[i][j].isMine) {
+    for (let i = Math.max(row - 1, 0); i < Math.min(row + 2, this.numRows); i++) {
+      for (let j = Math.max(col - 1, 0); j < Math.min(col + 2, this.numCols); j++) {
+        if (this.m_board[i][j].isMine)  {
           count++;
         }
       }
