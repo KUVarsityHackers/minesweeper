@@ -9,10 +9,6 @@
     <meta charset="utf-8">
     <script src="jquery-3.3.1.min.js">
     </script>
-    
-    <!--Slot machine heavily adapted from 
-    https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator
-    -->
 
 </head>
 <body>
@@ -45,6 +41,9 @@
     <div class="centered" id="resetButton">
             <button onclick="location.reload();" type="button">Reset</button>
     </div>
+    <div class="centered" id="cheatMode">
+        <button onmousedown="mouseDown()" onmouseup="mouseUp()" type="button">Cheat</button>
+    </div>
 
     <div class="centered" id="slot">
         <svg width="550" height="250" viewBox="0 0 1600 500">
@@ -73,7 +72,8 @@
             <form>
                 <input id = "slotButton" type="button" value="Click Here To Spin"> 
             </form>
-        
+            
+
         
             <div>Timer: <span id="time">05:00</span> minutes!</div>       
     </div>

@@ -143,3 +143,15 @@ button {
   border-radius: 10px;
   border: 1px solid #e6c172;
 }
+
+#cheatMode {
+  display: none;
+  margin-top: 20px;
+}
+
+#cheatMode button {
+  color: black;
+  background-color: #fcd47e;
+  border-radius: 10px;
+  border: 1px solid #e6c172;
+}

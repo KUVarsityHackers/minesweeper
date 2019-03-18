@@ -44,6 +44,7 @@ window.startGame = function startGame() {
     
     document.getElementById("slot").style.display = "block";
     document.getElementById("resetButton").style.display = "block";
+    document.getElementById("cheatMode").style.display = "block";
   }
 };
 
@@ -246,7 +247,10 @@ function unhideMines(board, hidden = true) {
   }
 }
 
-//slot machine code
+/*
+    Slot machine heavily adapted from 
+    https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator    
+*/
 
 let slot = document.getElementById("slotButton");
 
@@ -264,10 +268,15 @@ slot.onclick  = function(){
         three = Math.floor((Math.random()*9%3)+1);
         count--;
 
+        slot.value = "Spins: " + count;
+
         document.getElementById("num1").innerHTML = one;
         document.getElementById("num2").innerHTML = two;
         document.getElementById("num3").innerHTML = three;
 
+        if(count == 0){
+          slot.style.display = "none";
+        }
     }
     //win condition here
     if (one == two && one == three && one != null)    
