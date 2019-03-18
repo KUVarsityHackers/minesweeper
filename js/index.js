@@ -9,7 +9,7 @@ Powerups:
 
 import { Board } from "./board.js";
 
-let board;
+let takenFirstStep = false;
 let gameEnded = false;
 const fiveMinutes = 60 * 5;
 
@@ -39,7 +39,7 @@ window.startGame = function startGame() {
     document.getElementById("setup").style.display = "none";
     document.getElementById("title").className = "playTitle";
 
-    board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
+    const board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
     
     document.getElementById("slot").style.display = "block";
@@ -48,44 +48,28 @@ window.startGame = function startGame() {
 };
 
 function drawBoard(board) {
-  $("#game").empty();
-  for (let row = 0; row < board.numRows; row++) {
-    let rowElement = $("<div>");
-    rowElement.addClass("row");
-    for (let col = 0; col < board.numCols; col++) {
-      let id = col + " " + row;
-      let squareElement = $('<div id = "' + id + '">"');
-      squareElement.addClass("square");
-      squareElement.attr("data-x-coordinate", col);
-      squareElement.attr("data-y-coordinate", row);
-      rowElement.append(squareElement);
-    }
-    $("#game").append(rowElement);
-  }
-  let takenFirstStep = false;
+  show(board);
   $(".square").on("click", function() {
-    $(this).addClass("empty-square");
     let xPos = $(this).attr("data-x-coordinate");
     let yPos = $(this).attr("data-y-coordinate");
     if (!takenFirstStep) {
-      gameEnded = board.firstStep(xPos, yPos);
+      board.firstStep(yPos, xPos);
       takenFirstStep = true;
     } else {
-      gameEnded = board.takeStep(xPos, yPos);
+      gameEnded = board.takeStep(yPos, xPos);
     }
-    if (!gameEnded) {
-      show();
-    } else {
-      failShowMines();
-    }
+    if (gameEnded) {
+      unhideMines(board); 
+    } 
+    drawBoard(board);
   });
 
   $(".square").mousedown(function(e) {
     const elementClicked = $(this);
     const xPos = elementClicked.attr("data-x-coordinate");
     const yPos = elementClicked.attr("data-y-coordinate");
-
-    if (e.which == 3 && gameEnded == 0) {
+    console.log("right click" + String(e.which) + " game: " + String(gameEnded));
+    if (e.which == 3 && gameEnded == false) {
       // if right-click
       /*if (arr[xPos][yPos].isFlagged == 1) {
         arr[xPos][yPos].isFlagged = 0;
@@ -114,9 +98,13 @@ function drawBoard(board) {
           endScreen("win"); //end screen
         }
       }*/
-      board.toggleFlagSpace(xPos, yPos);
+      
+      board.toggleFlagSpace(yPos, xPos);
+
+      drawBoard(board)
     }
   });
+  
 }
 
 // /**
@@ -245,40 +233,52 @@ function removeTime() {
   }
 }
 
-function show() {
-  let printer = [];
-  for (let x = 0; x < board.numRows; x++) {
-    for (let y = 0; y < board.numCols; y++) {
-      printer.push(board.m_board[x][y].getSpace());
-    }
-    console.log(printer);
-    printer = [];
-  }
-  for (let x = 0; x < board.numRows; x++) {
-    for (let y = 0; y < board.numCols; y++) {
-      if (typeof board.m_board[x][y].getSpace() == "number") {
-        let elemID = x + " " + y;
-        document.getElementById(elemID).className = "empty-square";
-        if (board.m_board[x][y].getSpace() != 0) {
-          document.getElementById(elemID).innerHTML = board.m_board[x][
-            y
-          ].getSpace();
+function show(board) {
+  console.log(board);
+  $("#game").empty();
+
+  for (let row = 0; row < board.numRows; row++) {
+    let rowElement = $("<div>");
+    rowElement.addClass("row");
+
+    for (let col = 0; col < board.numCols; col++) {
+      let id = col + " " + row;
+      let squareElement = $('<div id = "' + id + '">"');
+      let square = board.m_board[row][col];
+      if (!square.isHidden) {
+        if (square.isMine) {
+          squareElement.addClass("exploded-square");
         }
-      } else if (board.m_board[x][y].getSpace() == "f") {
-        let elemID = x + " " + y;
-        document.getElementById(elemID).className = "flagged-square";
+        else {
+          squareElement.addClass("empty-square");
+          if(square.numMines != 0) {
+            squareElement.html(square.numMines);
+          }
+        }
+      }
+      else {
+        squareElement.addClass("square");
+        if (square.isFlagged) {
+        squareElement.addClass("flagged-square");
       }
     }
+
+      squareElement.attr("data-x-coordinate", col);
+      squareElement.attr("data-y-coordinate", row);
+      rowElement.append(squareElement);
+
+      
+    }
+    $("#game").append(rowElement);
   }
 }
-function failShowMines() {
+function unhideMines(board, hidden = true) {
   for (let x = 0; x < board.numRows; x++) {
     for (let y = 0; y < board.numCols; y++) {
       if (board.m_board[x][y].isMine == true) {
-        //If it's a bomb, show it as 'exploded'
-        let elemID = x + " " + y;
-        document.getElementById(elemID).className = "exploded-square";
+        board.m_board[x][y].isHidden = !hidden;
       }
     }
   }
 }
+
