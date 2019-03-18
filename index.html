@@ -13,37 +13,6 @@
     <!--Slot machine heavily adapted from 
     https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator
     -->
-    <script>
-    let count = 8   
-    let one = Math.floor((Math.random()*9%4)+1)
-    let two = Math.floor((Math.random()*9%4)+1)
-    let three = Math.floor((Math.random()*9%4)+1)
-
-       
-    function Refresh()    
-    {
-    if (count > 0)    
-    {
-        one = Math.floor((Math.random()*9%3)+1)
-        two = Math.floor((Math.random()*9%3)+1)
-        three = Math.floor((Math.random()*9%3)+1)
-        count--;
-
-        document.getElementById("num1").innerHTML = one;
-        document.getElementById("num2").innerHTML = two;
-        document.getElementById("num3").innerHTML = three;
-
-    }
-    //win condition here
-        if (one == two && one == three && one != null)    
-        {
-        console.log("winner")   
-        //call powerup function
-        }
-    }
-            
-    </script>
-
 
 </head>
 <body>
@@ -102,7 +71,7 @@
         </svg>  
             
             <form>
-                <input type="button" value="Click Here To Spin" onClick="Refresh()"> 
+                <input id = "slotButton" type="button" value="Click Here To Spin"> 
             </form>
         
         

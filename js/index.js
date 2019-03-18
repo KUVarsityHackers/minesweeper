@@ -246,3 +246,33 @@ function unhideMines(board, hidden = true) {
   }
 }
 
+//slot machine code
+
+let slot = document.getElementById("slotButton");
+
+let count = 8;
+let one = Math.floor((Math.random()*9%4)+1);
+let two = Math.floor((Math.random()*9%4)+1);
+let three = Math.floor((Math.random()*9%4)+1);
+
+slot.onclick  = function(){
+
+  if (count > 0)    
+    {
+        one = Math.floor((Math.random()*9%3)+1);
+        two = Math.floor((Math.random()*9%3)+1);
+        three = Math.floor((Math.random()*9%3)+1);
+        count--;
+
+        document.getElementById("num1").innerHTML = one;
+        document.getElementById("num2").innerHTML = two;
+        document.getElementById("num3").innerHTML = three;
+
+    }
+    //win condition here
+    if (one == two && one == three && one != null)    
+    {
+    console.log("winner");
+    //call powerup function
+    }
+}
