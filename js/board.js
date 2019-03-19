@@ -187,17 +187,15 @@ export class Board {
     let randRow = -1;
     let randCol = -1;
 
-    while (
-      randRow < -1 ||
-      randCol < -1 ||
-      randRow >= this.numRows ||
-      randCol >= this.numCols ||
-      !this.m_board[randRow][randCol].isHidden ||
-      this.m_board[randRow][randCol].isMine)
-     {
-      randRow = Math.floor(Math.random() * 1000 + 1) % this.numRows;
-      randCol = Math.floor(Math.random() * 1000 + 1) % this.numCols;
-    }
+
+    do{
+      randRow = Math.floor(Math.random() * this.numRows);
+      randCol = Math.floor(Math.random() * this.numCols); 
+      console.log(randRow);
+    } while (
+      (this.m_board[randRow][randCol].isHidden && !this.m_board[randRow][randCol].isMine)
+    );
+
 
     this.m_board[randRow][randCol].isHidden = false;
     this.numSpacesLeft--;
