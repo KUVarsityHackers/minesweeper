@@ -45,16 +45,7 @@ window.startGame = function startGame() {
     document.getElementById("slot").style.display = "block";
     document.getElementById("resetButton").style.display = "block";
     document.getElementById("cheatMode").style.display = "block";
-    document.getElementById("cheatMode").onclick = () => {
-      if (!takenFirstStep){
-        alert("Please select a space before you bother cheating.");
-      }
-      else if (!gameEnded) {
-        cheatMode = !cheatMode;
-        board.toggleCheatMode(cheatMode);
-        drawBoard(board);
-      }
-    };
+    document.getElementById("cheatButton").onclick = () => {toggleCheatMode(board)};
 
     let slot = document.getElementById("slotButton");
 
@@ -134,21 +125,29 @@ function drawBoard(board) {
   });
 }
 
-function toggleCheatMode() {
+function toggleCheatMode(board) {
   if (!takenFirstStep){
-    alert("Please select a space first.");
+    alert("Please select a space before you bother cheating.");
   }
-  else {
+  else if (!gameEnded) {
     cheatMode = !cheatMode;
     board.toggleCheatMode(cheatMode);
+    document.getElementById("cheatButton").innerHTML = (cheatMode) ? "Uncheat" : "Cheat";
+    drawBoard(board);
+  }
+  else {
+    alert("You cannot cheat. You have already lost and cheaters never win.");
   }
 }
 
 function endScreen(condition) {
   if (condition == "win") {
     alert("You Won!");
-  } else {
-    alert("Game Over. You lose.");
+  } else if (condition == "time") {
+    alert("You ran out of time. Game Over.");
+  }
+  else {
+    alert("You dug up a mine. Game Over.");
   }
   gameEnded = true;
 }
@@ -169,7 +168,7 @@ function startTimer(duration, display) {
     display.textContent = minutes + ":" + seconds;
 
     if (--timer < 0) {
-      endScreen("lose");
+      endScreen("time");
       clearInterval(countdown);
     }
   }, 1000);
