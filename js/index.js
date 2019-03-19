@@ -50,12 +50,12 @@ window.startGame = function startGame() {
     let slot = document.getElementById("slotButton");
 
     let count = 8;
-    let one = Math.floor((Math.random()*9%4)+1);
-    let two = Math.floor((Math.random()*9%4)+1);
-    let three = Math.floor((Math.random()*9%4)+1);
+    
       
     slot.onclick  = function(){
-
+      let one;
+      let two;
+      let three;
     if (count > 0)    
       {
           one = Math.floor((Math.random()*9%3)+1);
@@ -73,21 +73,26 @@ window.startGame = function startGame() {
             slot.style.display = "none";
           }
          // board.freeSpaceReveal();
-      }
+     
       //win condition here
-      if (one == two && one == three && one != null)    
+      setTimeout(function () {
+      if (one == two && one == three)    
       {
-          //board.freeSpaceReveal();
+          alert("You just won a free space.");
+          board.freeSpaceReveal();
       }
       else if(one == two || two == three || three == one){
+          alert("You just won some free time.");
           addTime();
       }
       else if(one != two && two != three && one != three){
+        alert("You just lost some time.");
           removeTime();
       }
-}
+    },100);
+    }
   }
-};
+
 
 function drawBoard(board) {
   show(board);
@@ -149,8 +154,6 @@ function endScreen(condition) {
   }
   else {
     alert("You dug up a mine. Game Over.");
-  }
-  countdown = function () {};
 
 }
 
@@ -167,20 +170,18 @@ function startTimer(duration, display) {
     minutes = minutes < 10 ? "0" + minutes : minutes;
     seconds = seconds < 10 ? "0" + seconds : seconds;
 
-    display.textContent = minutes + ":" + seconds;
+    display.textContent = sminutes + ":" + seconds;
 
     if (--timer < 0) {
       endScreen("time");
     }
-
-
   }, 1000);
 
   let endTimer  = setInterval(function() {
     if(gameEnded) {
       clearInterval(countdown);
+      clearInterval(gameEnded);
     }
-    clearInterval(gameEnded);
   }, 100);
  
 }
@@ -232,7 +233,8 @@ function show(board) {
     $("#game").append(rowElement);
   }
 }
-
+}
+}
 /*
     Slot machine heavily adapted from 
     https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator    
