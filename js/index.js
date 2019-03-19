@@ -79,7 +79,15 @@ window.startGame = function startGame() {
       if (one == two && one == three)    
       {
           alert("You just won a free space.");
-          board.freeSpaceReveal();
+          if(takenFirstStep){
+            board.freeSpaceReveal();
+          }
+          else{
+            let randRow = Math.floor(Math.random() * this.numRows);
+            let randCol = Math.floor(Math.random() * this.numCols);
+            gameEnded = board.firstStep(randRow, randCol);
+            takenFirstStep = true;
+          }
           drawBoard(board)
       }
       else if(one == two || two == three || three == one){
