@@ -104,8 +104,8 @@ function drawBoard(board) {
       gameEnded = board.takeStep(yPos, xPos);
     }
     if (gameEnded) {
-      board.unhideMines(); 
-      board.numSpacesLeft? endScreen("lose") : endScreen("win");
+      drawBoard(board);
+      setTimeout( function () {board.numSpacesLeft ? endScreen("lose") : endScreen("win")}, 100);
     } 
     drawBoard(board);
     }
@@ -136,11 +136,12 @@ function toggleCheatMode(board) {
     drawBoard(board);
   }
   else {
-    alert("You cannot cheat. You have already lost and cheaters never win.");
+    alert("You cannot cheat. The game is over.");
   }
 }
 
 function endScreen(condition) {
+  gameEnded = true;
   if (condition == "win") {
     alert("You Won!");
   } else if (condition == "time") {
@@ -149,7 +150,7 @@ function endScreen(condition) {
   else {
     alert("You dug up a mine. Game Over.");
   }
-  gameEnded = true;
+
 }
 
 //Handle countdown
