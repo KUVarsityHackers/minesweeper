@@ -72,16 +72,21 @@ window.startGame = function startGame() {
           if(count == 0){
             slot.style.display = "none";
           }
-         // board.freeSpaceReveal();
-     
-      //win condition here
       setTimeout(function () {
       if (one == two && one == three)    
       {
         if (one == 1)
         {
           alert("You just won a free space.");
-          board.freeSpaceReveal();
+          if(takenFirstStep) {
+            board.freeSpaceReveal();
+          }
+          else {
+            let randRow = Math.floor(Math.random() * boardHeight);
+            let randCol = Math.floor(Math.random() * boardWidth);
+            gameEnded = board.firstStep(randRow, randCol);
+            takenFirstStep = true;
+          }
           drawBoard(board)
         }
         else if (one == 2)

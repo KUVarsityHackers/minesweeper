@@ -198,27 +198,15 @@ export class Board {
   }
 
   freeSpaceReveal() {
-    /*
-
-  */
-    //generate random number less modulo rows and cols
-    //check if this space is unhidden and if it's a mine - never click on a mine
-    let randRow = -1;
-    let randCol = -1;
-
-
+    let randRow;
+    let randCol;
     do{
       randRow = Math.floor(Math.random() * this.numRows);
-      randCol = Math.floor(Math.random() * this.numCols); 
-      console.log(randRow);
-    } while (
-      (!this.m_board[randRow][randCol].isHidden || this.m_board[randRow][randCol].isMine)
-    );
-
-
-    recUnhide(randRow,randCol);
-    // this.numSpacesLeft--;
+      randCol = Math.floor(Math.random() * this.numCols);
+    } while (!this.m_board[randRow][randCol].isHidden || this.m_board[randRow][randCol].isMine || this.m_board[randRow][randCol].isFlagged);
+    this.recUnhide(randRow,randCol);
   }
+  
   unhideMines(hidden = true) {
     for (let x = 0; x < this.numRows; x++) {
       for (let y = 0; y < this.numCols; y++) {
