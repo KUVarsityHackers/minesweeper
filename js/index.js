@@ -51,7 +51,7 @@ window.startGame = function startGame() {
 function drawBoard(board) {
   show(board);
   $(".square").on("click", function(e) {
-
+    if(!gameEnded) {
     let xPos = Number($(this).attr("data-x-coordinate"));
     let yPos = Number($(this).attr("data-y-coordinate"));
     console.log("run:" + yPos, xPos);
@@ -62,13 +62,15 @@ function drawBoard(board) {
       gameEnded = board.takeStep(yPos, xPos);
     }
     if (gameEnded) {
-      unhideMines(board); 
+      board.unhideMines(); 
       board.numSpacesLeft? endScreen("lose") : endScreen("win");
     } 
     drawBoard(board);
+    }
   });
 
   $(".square").mousedown(function(e) {
+    if(!gameEnded) {
     const elementClicked = $(this);
     const xPos = elementClicked.attr("data-x-coordinate");
     const yPos = elementClicked.attr("data-y-coordinate");
@@ -76,8 +78,8 @@ function drawBoard(board) {
       board.toggleFlagSpace(yPos, xPos);
       drawBoard(board)
     }
+  }
   });
-  
 }
 
 // /**
@@ -157,7 +159,7 @@ function endScreen(condition) {
   if (condition == "win") {
     alert("You Won!");
   } else {
-    alert("Game Over. Try again?");
+    alert("Game Over. You lose.");
   }
   gameEnded = true;
 }
@@ -192,8 +194,6 @@ function addTime() {
   let display = document.querySelector("#time");
   startTimer(timer + 30, display);
 }
-
-removeTime();
 
 function removeTime() {
   console.log("func run");
@@ -236,15 +236,6 @@ function show(board) {
       rowElement.append(squareElement);
     }
     $("#game").append(rowElement);
-  }
-}
-function unhideMines(board, hidden = true) {
-  for (let x = 0; x < board.numRows; x++) {
-    for (let y = 0; y < board.numCols; y++) {
-      if (board.m_board[x][y].isMine == true) {
-        board.m_board[x][y].isHidden = !hidden;
-      }
-    }
   }
 }
 
