@@ -105,7 +105,7 @@ function drawBoard(board) {
     }
     if (gameEnded) {
       drawBoard(board);
-      setTimeout( function () {board.numSpacesLeft ? endScreen("lose") : endScreen("win")}, 100);
+      setTimeout( function () {board.numSpacesLeft ? endScreen("lose") : endScreen("win")}, 200);
     } 
     drawBoard(board);
     }
@@ -150,6 +150,7 @@ function endScreen(condition) {
   else {
     alert("You dug up a mine. Game Over.");
   }
+  countdown = function () {};
 
 }
 
@@ -159,7 +160,7 @@ let timer = 0;
 function startTimer(duration, display) {
   timer = duration;
   let minutes, seconds;
-  var countdown = setInterval(function() {
+  let countdown = setInterval(function() {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
 
@@ -170,9 +171,18 @@ function startTimer(duration, display) {
 
     if (--timer < 0) {
       endScreen("time");
+    }
+
+
+  }, 1000);
+
+  let endTimer  = setInterval(function() {
+    if(gameEnded) {
       clearInterval(countdown);
     }
-  }, 1000);
+    clearInterval(gameEnded);
+  }, 100);
+ 
 }
 
 window.onload = function() {
