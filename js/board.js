@@ -6,8 +6,6 @@ export class Board {
     this.numCols = cols;
     this.numMines = mines;
     this.numFlags = flags;
-    //this is likely not imortant anymore
-    this.numMinesFlagged = 0;
     this.numSpacesLeft = rows * cols - mines;
     this.m_board = [];
     for (let i = 0; i < rows; i++) {
@@ -98,20 +96,11 @@ export class Board {
     if (this.m_board[row][col].isFlagged) {
       this.m_board[row][col].isFlagged = false;
       this.numFlags++
-      //update number of mines correctly marked if this is a mine
-      if (this.m_board[row][col].isMine) {
-        this.numMinesFlagged--;
-      }
     }
     //else if the space is not flagged, then remove
-    else if (!this.m_board[row][col].isFlagged && this.numFlags > 0) {
+    else if (!this.m_board[row][col].isFlagged) {
       this.m_board[row][col].isFlagged = true;
       this.numFlags--;
-
-      //update number of mines correctly marked if this is a mine
-      if (this.m_board[row][col].isMine) {
-        this.numMinesFlagged++;
-      }
     }
     //throw an exception if no flags remain
     else {
