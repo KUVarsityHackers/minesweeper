@@ -70,7 +70,7 @@ window.startGame = function startGame() {
           if(count == 0){
             slot.style.display = "none";
           }
-         // board.freeSpaceReveal();
+          board.freeSpaceReveal();
       }
       //win condition here
       if (one == two && one == three && one != null)    
