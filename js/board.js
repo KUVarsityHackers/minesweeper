@@ -206,7 +206,7 @@ export class Board {
       randCol < -1 ||
       randRow >= this.numRows ||
       randCol >= this.numCols ||
-      (this.m_board[randRow][randCol].isHidden &&
+      !(this.m_board[randRow][randCol].isHidden &&
         !this.m_board[randRow][randCol].isMine)
     ) {
       randRow = Math.floor(Math.random() * 1000 + 1) % this.numRows;
