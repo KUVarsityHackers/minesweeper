@@ -10,8 +10,8 @@ import { Board } from "./board.js";
 
 let takenFirstStep = false;
 let gameEnded = false;
-const fiveMinutes = 5 * 60;
-let board;
+const fiveMinutes = 60 * 5;
+let cheatMode = false;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -39,22 +39,23 @@ window.startGame = function startGame() {
     document.getElementById("setup").style.display = "none";
     document.getElementById("title").className = "playTitle";
 
-    board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
+    const board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
 
     document.getElementById("slot").style.display = "block";
     document.getElementById("resetButton").style.display = "block";
     document.getElementById("cheatMode").style.display = "block";
+    document.getElementById("cheatButton").onclick = () => {toggleCheatMode(board)};
 
     let slot = document.getElementById("slotButton");
 
     let count = 8;
-    let one = Math.floor((Math.random()*9%4)+1);
-    let two = Math.floor((Math.random()*9%4)+1);
-    let three = Math.floor((Math.random()*9%4)+1);
+    
       
     slot.onclick  = function(){
-
+      let one;
+      let two;
+      let three;
     if (count > 0)    
       {
           one = Math.floor((Math.random()*9%3)+1);
@@ -71,22 +72,38 @@ window.startGame = function startGame() {
           if(count == 0){
             slot.style.display = "none";
           }
-          board.freeSpaceReveal();
-      }
+         // board.freeSpaceReveal();
+     
       //win condition here
-      if (one == two && one == three && one != null)    
+      setTimeout(function () {
+      if (one == two && one == three)    
       {
-          //board.freeSpaceReveal();
+          alert("You just won a free space.");
+          if(takenFirstStep){
+            board.freeSpaceReveal();
+          }
+          else{
+            let randRow = Math.floor(Math.random() * this.numRows);
+            let randCol = Math.floor(Math.random() * this.numCols);
+            gameEnded = board.firstStep(randRow, randCol);
+            takenFirstStep = true;
+          }
+          drawBoard(board)
       }
-      else if(one == two || two == three || three == one){
+      else if(one == two && two == three && one == "1"){
+          alert("You just won some free time.");
           addTime();
       }
       else if(one != two && two != three && one != three){
+        alert("You just lost some time.");
           removeTime();
       }
-}
+    },100);
+    }
   }
-};
+}
+}
+
 
 function drawBoard(board) {
   show(board);
@@ -103,8 +120,8 @@ function drawBoard(board) {
       gameEnded = board.takeStep(yPos, xPos);
     }
     if (gameEnded) {
-      board.unhideMines(); 
-      board.numSpacesLeft? endScreen("lose") : endScreen("win");
+      drawBoard(board);
+      setTimeout( function () {board.numSpacesLeft ? endScreen("lose") : endScreen("win")}, 200);
     } 
     drawBoard(board);
     }
@@ -124,86 +141,31 @@ function drawBoard(board) {
   });
 }
 
-// /**
-//  * Going square by square, check all neighboring mines one by one.
-//  * If bomb found, itterate numMinesFound up by one. Set final value to arr[x][y]
-//  */
-//
-// /**
-//  * on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
-//  * @param {Number} x - x coordinate
-//  * @param {Number} y - y coordinate
-//  */
-// function onClicked(x, y) {
-//   if (gameEnded == 0) {
-//     recHelperFunction(x, y);
-//     //If the total number of squares minus the number of clicked squares equals the number of bombs, only bombs must be left and should auto-win
-//     //Also check for if coordinate (x,y) is a bomb, caused issues of both fail and win messages popping up
-//     if (
-//       gridSize * gridSize - numOfClickedOnSquares == userNumOfMines &&
-//       arr[x][y].isBomb == 0
-//     ) {
-//       allNonMinesFound();
-//       return;
-//     }
-//   } else {
-//     return;
-//   }
-// }
-
-// function userClick(x, y) {
-//   arr[x][y].isClicked = 1;
-//   numOfClickedOnSquares = numOfClickedOnSquares + 1;
-//   let elemID = x + " " + y;
-//   document.getElementById(elemID).className = "empty-square";
-//   document.getElementById(elemID).innerHTML = arr[x][y].numNeighborMines;
-//   if (arr[x][y].numNeighborMines == "0") {
-//     document.getElementById(elemID).className += " zero";
-//   }
-//   return;
-// }
-
-// /**
-//  * fail-state, displays all mines in red
-//  */
-// function failShowMines() {
-//   for (let x = 0; x < gridSize; x++) {
-//     for (let y = 0; y < gridSize; y++) {
-//       if (arr[x][y].isBomb == 1) {
-//         //If it's a bomb, show it as 'exploded'
-//         let elemID = x + " " + y;
-//         document.getElementById(elemID).className = "exploded-square";
-//       }
-
-//       if (arr[x][y].isBomb == 0 && arr[x][y].isClicked == 0) {
-//         //If not a bomb, show it as 'clicked'
-//         userClick(x, y);
-//         arr[x][y].isClicked = 0; //'unclick', since user didn't actually click, just for show on end game
-//       }
-//     }
-//   }
-// }
-
-// function allNonMinesFound() {
-//   for (let x = 0; x < gridSize; x++) {
-//     for (let y = 0; y < gridSize; y++) {
-//       if (arr[x][y].isBomb == 1) {
-//         //if bomb, show it as 'flagged'
-//         let elemID = x + " " + y;
-//         document.getElementById(elemID).className = "flagged-square";
-//       }
-//     }
-//   }
-//   endScreen("win"); //end screen
-// }
+function toggleCheatMode(board) {
+  if (!takenFirstStep){
+    alert("Please select a space before you bother cheating.");
+  }
+  else if (!gameEnded) {
+    cheatMode = !cheatMode;
+    board.toggleCheatMode(cheatMode);
+    document.getElementById("cheatButton").innerHTML = (cheatMode) ? "Uncheat" : "Cheat";
+    drawBoard(board);
+  }
+  else {
+    alert("You cannot cheat. The game is over.");
+  }
+}
 
 function endScreen(condition) {
+  gameEnded = true;
   if (condition == "win") {
     alert("You Won!");
-  } else {
-    alert("Game Over. You lose.");
+  } else if (condition == "time") {
+    alert("You ran out of time. Game Over.");
   }
-  gameEnded = true;
+  else {
+    alert("You dug up a mine. Game Over.");
+}
 }
 
 //Handle countdown
@@ -212,7 +174,7 @@ let timer = 0;
 function startTimer(duration, display) {
   timer = duration;
   let minutes, seconds;
-  var countdown = setInterval(function() {
+  let countdown = setInterval(function() {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
 
@@ -222,10 +184,17 @@ function startTimer(duration, display) {
     display.textContent = minutes + ":" + seconds;
 
     if (--timer < 0) {
-      endScreen("lose");
-      clearInterval(countdown);
+      endScreen("time");
     }
   }, 1000);
+
+  let endTimer  = setInterval(function() {
+    if(gameEnded) {
+      clearInterval(countdown);
+      clearInterval(gameEnded);
+    }
+  }, 100);
+ 
 }
 
 window.onload = function() {
@@ -275,10 +244,6 @@ function show(board) {
     $("#game").append(rowElement);
   }
 }
-
-window.mouseDown = function mouseDown() {board.unhideMines(); drawBoard(board);};
-window.mouseUp =  function mouseDown() {board.unhideMines(false); drawBoard(board);};
-
 /*
     Slot machine heavily adapted from 
     https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator    

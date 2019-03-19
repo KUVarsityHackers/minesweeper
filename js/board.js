@@ -8,6 +8,7 @@ export class Board {
     this.numFlags = flags;
     this.numSpacesLeft = rows * cols - mines;
     this.m_board = [];
+    this.priorBoard = [];
     for (let i = 0; i < rows; i++) {
       this.m_board.push([]);
       for (let j = 0; j < cols; j++) {
@@ -85,6 +86,26 @@ export class Board {
           }
        }
      }
+    }
+  }
+
+  toggleCheatMode(cheatMode){
+    if (cheatMode) {
+      this.priorBoard = [];
+      for (let i in this.m_board){
+        this.priorBoard.push([]);
+        for (let j in this.m_board[i]){
+          this.priorBoard[i].push(this.m_board[i][j].isHidden);
+          this.m_board[i][j].isHidden = false;
+        }
+      }
+    }
+    else {
+      for (let i in this.priorBoard){
+        for (let j in this.priorBoard[i]){
+          this.m_board[i][j].isHidden = this.priorBoard[i][j];
+        }
+      }
     }
   }
 
@@ -179,8 +200,6 @@ export class Board {
   freeSpaceReveal() {
     /*
 
-
-
   */
     //generate random number less modulo rows and cols
     //check if this space is unhidden and if it's a mine - never click on a mine
@@ -194,12 +213,14 @@ export class Board {
           && !this.m_board[randRow][randCol].isMine)){
       randRow = Math.floor(Math.random() * this.numRows);
       randCol = Math.floor(Math.random() * this.numCols); 
-    }*/
+      console.log(randRow);
+    } while (
+      (!this.m_board[randRow][randCol].isHidden || this.m_board[randRow][randCol].isMine)
+    );
 
-    console.log(this.m_board[randRow][randCol].isHidden);
-    this.m_board[randRow][randCol].isHidden = false;
-    console.log(this.m_board[randRow][randCol].isHidden);
-    this.numSpacesLeft--;
+
+    recUnhide(randRow,randCol);
+    // this.numSpacesLeft--;
   }
   unhideMines(hidden = true) {
     for (let x = 0; x < this.numRows; x++) {
