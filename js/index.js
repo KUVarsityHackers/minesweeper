@@ -78,18 +78,25 @@ window.startGame = function startGame() {
       setTimeout(function () {
       if (one == two && one == three)    
       {
+        if (one == 1)
+        {
           alert("You just won a free space.");
           board.freeSpaceReveal();
           drawBoard(board)
-      }
-      else if(one == two || two == three || three == one){
+        }
+        else if (one == 2)
+        {
           alert("You just won some free time.");
           addTime();
-      }
-      else if(one != two && two != three && one != three){
-        alert("You just lost some time.");
+        }
+        else if (one == 3)
+        {
+          alert("You just lost some time.");
           removeTime();
+        }
       }
+      
+      
     },100);
     }
   }
