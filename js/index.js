@@ -11,6 +11,7 @@ import { Board } from "./board.js";
 let takenFirstStep = false;
 let gameEnded = false;
 const fiveMinutes = 5 * 60;
+let board;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -38,7 +39,7 @@ window.startGame = function startGame() {
     document.getElementById("setup").style.display = "none";
     document.getElementById("title").className = "playTitle";
 
-    const board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
+    board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
 
     document.getElementById("slot").style.display = "block";
@@ -91,6 +92,7 @@ function drawBoard(board) {
   show(board);
   $(".square").on("click", function(e) {
     if(!gameEnded) {
+    board.unhideMines(false)
     let xPos = Number($(this).attr("data-x-coordinate"));
     let yPos = Number($(this).attr("data-y-coordinate"));
     console.log("run:" + yPos, xPos);
@@ -110,6 +112,7 @@ function drawBoard(board) {
 
   $(".square").mousedown(function(e) {
     if(!gameEnded) {
+    board.unhideMines(false)
     const elementClicked = $(this);
     const xPos = elementClicked.attr("data-x-coordinate");
     const yPos = elementClicked.attr("data-y-coordinate");
@@ -240,6 +243,9 @@ function removeTime() {
 
 function show(board) {
   $("#game").empty();
+  if(gameEnded) {
+    board.unhideMines();
+  }
   for (let row = 0; row < board.numRows; row++) {
     let rowElement = $("<div>");
     rowElement.addClass("row");
@@ -269,6 +275,9 @@ function show(board) {
     $("#game").append(rowElement);
   }
 }
+
+window.mouseDown = function mouseDown() {board.unhideMines(); drawBoard(board);};
+window.mouseUp =  function mouseDown() {board.unhideMines(false); drawBoard(board);};
 
 /*
     Slot machine heavily adapted from 
