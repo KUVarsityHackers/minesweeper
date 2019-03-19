@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Minesweeper</title>
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <script type="module" src="./js/index.js">    </script>
+</head>
+
+<script src="./js/index.js">
+    startGame()
+   console.log("success")
+</script>
+
+<div id="game"></div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js">
+</script>
+<div class="centered" id="resetButton">
+    <button onclick="location.reload();" type="button">Reset</button>
+</div>
+<div>Timer: <span id="time">05:00</span> minutes!</div>
+
+<!--Slot machine heavily adapted from 
+https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator
+-->
+<head>
+
+    <meta charset="utf-8">
+
+    
+    <script>
+    let count = 8   
+    let one = Math.floor((Math.random()*9%4)+1)
+    let two = Math.floor((Math.random()*9%4)+1)
+    let three = Math.floor((Math.random()*9%4)+1)
+
+       
+    function Refresh()    
+    {
+    if (count > 0)    
+    {
+        one = Math.floor((Math.random()*9%3)+1)
+        two = Math.floor((Math.random()*9%3)+1)
+        three = Math.floor((Math.random()*9%3)+1)
+        count--;
+
+        document.getElementById("num1").innerHTML = one;
+        document.getElementById("num2").innerHTML = two;
+        document.getElementById("num3").innerHTML = three;
+
+    }
+    //win condition here
+        if (one == two && one == three && one != null)    
+        {
+        console.log("winner")   
+        //call powerup function
+        }
+    }
+            
+    </script>
+    
+    </head>
+    
+   <center>
+    <svg width="550" height="250" viewBox="0 0 1600 500" class="centered"> 
+    
+    <rect x="0" y="10" width="500" height="500" fill="black" stroke="white" stroke-width="10">
+    </rect>
+    
+    <rect x="550" y="10" width="500" height="500" fill="black" stroke="white" stroke-width="10">
+    </rect>
+    
+    <rect x="1100" y="10" width="500" height="500" fill="black" stroke="white" stroke-width="10">
+    </rect>
+    
+    <text x="100" y="415" font-family="courier" font-size="500" fill="white" id="num1">
+    1
+    </text>
+    
+    <text x="650" y="415" font-family="courier" font-size="500" fill="white" id="num2">
+    2        
+    </text>
+    
+    <text x="1200" y="415" font-family="courier" font-size="500" fill="white" id="num3">
+    3       
+    </text>
+    </svg>  
+ 
+    <form>
+
+    
+    <input type="button" value="Click Here To Spin" onClick="Refresh()"> 
+
+    </form>
+    </center>
+
+</body>
+
+</html>

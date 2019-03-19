@@ -8,16 +8,33 @@ body {
   background-color: #e66565;
   font-family: "Quicksand", sans-serif;
 }
+.hidden {
+  display: none;
+}
+.centered {
+  text-align: center;
+  width: 100%;
+  overflow: auto;
+}
 
 .centeredText {
   text-align: center;
+  font-size: 10em;
 }
 
-#squareContainer {
+.playTitle {
   text-align: center;
-  font-size: 20px;
+  font-size: 5em;
 }
 
+#game {
+  text-align: center;
+  font-size: 1em;
+}
+
+#slot {
+  display: none;
+}
 /* Square States */
 
 .square {
@@ -28,6 +45,9 @@ body {
   border: solid 1px #e6c172;
   box-sizing: border-box;
   vertical-align: top;
+}
+.square:hover {
+  background-color: silver;
 }
 
 .empty-square {
@@ -77,21 +97,33 @@ body {
 
 /* Setup Process */
 #setup {
+  display: inline-block;
+  width: 100%;
   text-align: center;
+}
+#setup form {
+  display: inline-block;
+  text-align: left;
+}
+
+#setup label {
+  display: inline-block;
+  font-size: 1.25em;
+  text-align: left;
 }
 
 #setup input {
-  font-size: 15px;
-  text-align: center;
-  width: 50px;
-  margin: 10px;
-  padding: 10px;
+  font-size: 1em;
+  text-align: left;
+  width: 3em;
+  margin: 0.2em;
+  padding: 0.2em;
 }
 
 button {
   font-family: "Quicksand", sans-serif;
-  font-size: 15px;
-  padding: 10px;
+  font-size: 1.25em;
+  padding: 0.4em;
 }
 
 .invalid {
@@ -106,6 +138,18 @@ button {
 }
 
 #resetButton button {
+  color: black;
+  background-color: #fcd47e;
+  border-radius: 10px;
+  border: 1px solid #e6c172;
+}
+
+#cheatMode {
+  display: none;
+  margin-top: 20px;
+}
+
+#cheatMode button {
   color: black;
   background-color: #fcd47e;
   border-radius: 10px;

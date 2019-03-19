@@ -1,31 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Minesweeper</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-  </head>
-  <body oncontextmenu="return false;">
-    <h1 class="centeredText">Minesweeper</h1>
-    <h2 class="centeredText"></h2>
+    <link href="styles.css" rel="stylesheet">
+    <script type="module" src="./js/index.js"></script>
+
+    <meta charset="utf-8">
+    <script src="jquery-3.3.1.min.js">
+    </script>
+
+</head>
+<body>
+
+
+    <div>
+        <h1 id="title" class="centeredText">Minesweeper</h1>
+    </div>
+
     <div id="setup">
         <form>
-            Board Length (2 - 99):<br>
-            <input id="boardLength" type="text" name="boardSize" value="10"><br>
-            Mine Amount (minimum of 1, at most 1 less than total squares):<br>
-            <input id="mineAmount" type="text" name="mineAmount" value="20"><br>
-            <button type="button" onclick="startGame()">Create Board</button>
-        </form>  
+            <table>
+                <tr>
+                    <td><label for="boardHeight">Board Size:</label></td>
+                    <td><input id="boardHeight" min="2" max="50" type="number" value="10" required> x <input id="boardWidth"  min="2" max="50" type="number" value="10" required></td>
+                </tr>
+                <tr>
+                    <td><label for="mineAmount">Mine Amount:</label></td>
+                    <td><input id="mineAmount" min="1" max="2499" name="mineAmount" type="number" value="20" required></td>
+                </tr>
+                <tr>
+                    <td><button onclick="startGame()" type="button">Create Board</button></td>
+                </tr>
+            </table>
+        </form>
     </div>
-    <div id="squareContainer"></div>
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"
-    ></script>
-    <script src="index.js"></script>
-    <div id="resetButton" class="centeredText">
-      <button onclick="location.reload();" type="button">Reset</button> 
+
+    <div id="game" oncontextmenu="return false;"></div>
+
+    <div class="centered" id="resetButton">
+            <button onclick="location.reload()" type="button">Reset</button>
     </div>
-  </body>
+    <div class="centered" id="cheatMode">
+        <button type="button" id="cheatButton" >Cheat</button>
+    </div>
+
+    <div class="centered" id="slot">
+        <svg width="550" height="250" viewBox="0 0 1600 500">
+            <rect x="0" y="10" width="500" height="500" fill="black" stroke="white" stroke-width="10">
+            </rect>
+            
+            <rect x="550" y="10" width="500" height="500" fill="black" stroke="white" stroke-width="10">
+            </rect>
+            
+            <rect x="1100" y="10" width="500" height="500" fill="black" stroke="white" stroke-width="10">
+            </rect>
+            
+            <text x="100" y="415" font-family="courier" font-size="500" fill="white" id="num1">
+            1
+            </text>
+            
+            <text x="650" y="415" font-family="courier" font-size="500" fill="white" id="num2">
+            2        
+            </text>
+            
+            <text x="1200" y="415" font-family="courier" font-size="500" fill="white" id="num3">
+            3       
+            </text>
+        </svg>  
+            
+            <form>
+                <input id = "slotButton" type="button" value="Click Here To Spin"> 
+            </form>
+            
+
+        
+            <div>Timer: <span id="time">05:00</span> minutes!</div>       
+    </div>
+     
+    </div>
+</body>
+
+
 </html>
