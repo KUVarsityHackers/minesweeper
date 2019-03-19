@@ -209,6 +209,7 @@ export class Board {
     randCol = Math.floor(Math.random() * this.numCols);
     console.log(randCol);
     console.log(randRow);
+  }
    /* while ((this.m_board[randRow][randCol].isHidden 
           && !this.m_board[randRow][randCol].isMine)){
       randRow = Math.floor(Math.random() * this.numRows);
