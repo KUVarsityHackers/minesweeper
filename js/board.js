@@ -76,13 +76,10 @@ export class Board {
           if(this.m_board[curRow][curCol].isHidden && (!this.m_board[curRow][curCol].isMine) && (!this.m_board[curRow][curCol].isFlagged))
           {
             if(this.m_board[curRow][curCol].numMines == 0) {
-              console.log("Rec unhide: " + curRow + ", " + curCol + " from " + row + ", " + col);
               this.recUnhide(curRow, curCol);
               this.numSpacesLeft--;
             }
             else {
-              console.log("Type: " + String(typeof col));
-              console.log("Normal unhide: " + curRow + ", " + curCol + " from " + row + ", " + col + "Max: " + Math.min(row + 2, this.numRows) + ", " + Math.min(col + 2, this.numCols));
               this.m_board[curRow][curCol].isHidden = false;
               this.numSpacesLeft--;
             }
@@ -211,19 +208,26 @@ export class Board {
     let randRow = -1;
     let randCol = -1;
 
-    while (
-      randRow < -1 ||
-      randCol < -1 ||
-      randRow >= this.numRows ||
-      randCol >= this.numCols ||
-      !(this.m_board[randRow][randCol].isHidden &&
-        !this.m_board[randRow][randCol].isMine)
-    ) {
-      randRow = Math.floor(Math.random() * 1000 + 1) % this.numRows;
-      randCol = Math.floor(Math.random() * 1000 + 1) % this.numCols;
-    }
+
+    do{
+      randRow = Math.floor(Math.random() * this.numRows);
+      randCol = Math.floor(Math.random() * this.numCols); 
+      console.log(randRow);
+    } while (
+      (this.m_board[randRow][randCol].isHidden && !this.m_board[randRow][randCol].isMine)
+    );
+
 
     this.m_board[randRow][randCol].isHidden = false;
     this.numSpacesLeft--;
+  }
+  unhideMines(hidden = true) {
+    for (let x = 0; x < this.numRows; x++) {
+      for (let y = 0; y < this.numCols; y++) {
+        if (this.m_board[x][y].isMine == true) {
+          this.m_board[x][y].isHidden = !hidden;
+        }
+      }
+    }
   }
 }
