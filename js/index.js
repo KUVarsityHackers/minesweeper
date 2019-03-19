@@ -80,6 +80,7 @@ window.startGame = function startGame() {
       {
           alert("You just won a free space.");
           board.freeSpaceReveal();
+          drawBoard(board)
       }
       else if(one == two || two == three || three == one){
           alert("You just won some free time.");
@@ -92,6 +93,8 @@ window.startGame = function startGame() {
     },100);
     }
   }
+}
+}
 
 
 function drawBoard(board) {
@@ -154,7 +157,7 @@ function endScreen(condition) {
   }
   else {
     alert("You dug up a mine. Game Over.");
-
+}
 }
 
 //Handle countdown
@@ -170,7 +173,7 @@ function startTimer(duration, display) {
     minutes = minutes < 10 ? "0" + minutes : minutes;
     seconds = seconds < 10 ? "0" + seconds : seconds;
 
-    display.textContent = sminutes + ":" + seconds;
+    display.textContent = minutes + ":" + seconds;
 
     if (--timer < 0) {
       endScreen("time");
@@ -232,8 +235,6 @@ function show(board) {
     }
     $("#game").append(rowElement);
   }
-}
-}
 }
 /*
     Slot machine heavily adapted from 
