@@ -12,6 +12,7 @@ import { Board } from "./board.js";
 let takenFirstStep = false;
 let gameEnded = false;
 const fiveMinutes = 60 * 5;
+let cheatMode = false;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -45,6 +46,16 @@ window.startGame = function startGame() {
     document.getElementById("slot").style.display = "block";
     document.getElementById("resetButton").style.display = "block";
     document.getElementById("cheatMode").style.display = "block";
+    document.getElementById("cheatMode").onclick = () => {
+      if (!takenFirstStep){
+        alert("Please select a space before you bother cheating.");
+      }
+      else if (!gameEnded) {
+        cheatMode = !cheatMode;
+        board.toggleCheatMode(cheatMode);
+        drawBoard(board);
+      }
+    };
   }
 };
 
@@ -80,78 +91,15 @@ function drawBoard(board) {
   
 }
 
-// /**
-//  * Going square by square, check all neighboring mines one by one.
-//  * If bomb found, itterate numMinesFound up by one. Set final value to arr[x][y]
-//  */
-//
-// /**
-//  * on user clicking on a grid square. **Just For testing: should display (x, y) coordinates on grid click, plus number of times a spesific square has been clicked on
-//  * @param {Number} x - x coordinate
-//  * @param {Number} y - y coordinate
-//  */
-// function onClicked(x, y) {
-//   if (gameEnded == 0) {
-//     recHelperFunction(x, y);
-//     //If the total number of squares minus the number of clicked squares equals the number of bombs, only bombs must be left and should auto-win
-//     //Also check for if coordinate (x,y) is a bomb, caused issues of both fail and win messages popping up
-//     if (
-//       gridSize * gridSize - numOfClickedOnSquares == userNumOfMines &&
-//       arr[x][y].isBomb == 0
-//     ) {
-//       allNonMinesFound();
-//       return;
-//     }
-//   } else {
-//     return;
-//   }
-// }
-
-// function userClick(x, y) {
-//   arr[x][y].isClicked = 1;
-//   numOfClickedOnSquares = numOfClickedOnSquares + 1;
-//   let elemID = x + " " + y;
-//   document.getElementById(elemID).className = "empty-square";
-//   document.getElementById(elemID).innerHTML = arr[x][y].numNeighborMines;
-//   if (arr[x][y].numNeighborMines == "0") {
-//     document.getElementById(elemID).className += " zero";
-//   }
-//   return;
-// }
-
-// /**
-//  * fail-state, displays all mines in red
-//  */
-// function failShowMines() {
-//   for (let x = 0; x < gridSize; x++) {
-//     for (let y = 0; y < gridSize; y++) {
-//       if (arr[x][y].isBomb == 1) {
-//         //If it's a bomb, show it as 'exploded'
-//         let elemID = x + " " + y;
-//         document.getElementById(elemID).className = "exploded-square";
-//       }
-
-//       if (arr[x][y].isBomb == 0 && arr[x][y].isClicked == 0) {
-//         //If not a bomb, show it as 'clicked'
-//         userClick(x, y);
-//         arr[x][y].isClicked = 0; //'unclick', since user didn't actually click, just for show on end game
-//       }
-//     }
-//   }
-// }
-
-// function allNonMinesFound() {
-//   for (let x = 0; x < gridSize; x++) {
-//     for (let y = 0; y < gridSize; y++) {
-//       if (arr[x][y].isBomb == 1) {
-//         //if bomb, show it as 'flagged'
-//         let elemID = x + " " + y;
-//         document.getElementById(elemID).className = "flagged-square";
-//       }
-//     }
-//   }
-//   endScreen("win"); //end screen
-// }
+function toggleCheatMode() {
+  if (!takenFirstStep){
+    alert("Please select a space first.");
+  }
+  else {
+    cheatMode = !cheatMode;
+    board.toggleCheatMode(cheatMode);
+  }
+}
 
 function endScreen(condition) {
   if (condition == "win") {

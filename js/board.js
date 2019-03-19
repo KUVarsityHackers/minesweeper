@@ -8,6 +8,7 @@ export class Board {
     this.numFlags = flags;
     this.numSpacesLeft = rows * cols - mines;
     this.m_board = [];
+    this.priorBoard = [];
     for (let i = 0; i < rows; i++) {
       this.m_board.push([]);
       for (let j = 0; j < cols; j++) {
@@ -88,6 +89,26 @@ export class Board {
           }
        }
      }
+    }
+  }
+
+  toggleCheatMode(cheatMode){
+    if (cheatMode) {
+      this.priorBoard = [];
+      for (let i in this.m_board){
+        this.priorBoard.push([]);
+        for (let j in this.m_board[i]){
+          this.priorBoard[i].push(this.m_board[i][j].isHidden);
+          this.m_board[i][j].isHidden = false;
+        }
+      }
+    }
+    else {
+      for (let i in this.priorBoard){
+        for (let j in this.priorBoard[i]){
+          this.m_board[i][j].isHidden = this.priorBoard[i][j];
+        }
+      }
     }
   }
 

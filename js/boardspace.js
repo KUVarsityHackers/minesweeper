@@ -6,6 +6,13 @@ export class BoardSpace {
     this.numMines = 0;
   }
 
+  BoardSpace(boardSpace) {
+    this.isMine = boardSpace.isMine;
+    this.isFlagged = boardSpace.isFlagged;
+    this.isHidden = boardSpace.isHidden;
+    this.numMines = boardSpace.numMines;
+  }
+
   showSpace() {
     if (!this.isMine) {
       return this.numMines;
