@@ -6,12 +6,11 @@ Powerups:
 
 */
 
-
 import { Board } from "./board.js";
 
 let takenFirstStep = false;
 let gameEnded = false;
-const fiveMinutes = 60 * 5;
+const fiveMinutes = 5 * 60;
 
 window.startGame = function startGame() {
   const boardHeight = Number(document.getElementById("boardHeight").value);
@@ -41,7 +40,7 @@ window.startGame = function startGame() {
 
     const board = new Board(boardHeight, boardWidth, numOfMines, numOfMines);
     drawBoard(board);
-    
+
     document.getElementById("slot").style.display = "block";
     document.getElementById("resetButton").style.display = "block";
     document.getElementById("cheatMode").style.display = "block";
@@ -91,7 +90,6 @@ window.startGame = function startGame() {
 function drawBoard(board) {
   show(board);
   $(".square").on("click", function(e) {
-
     let xPos = Number($(this).attr("data-x-coordinate"));
     let yPos = Number($(this).attr("data-y-coordinate"));
     console.log("run:" + yPos, xPos);
@@ -102,9 +100,9 @@ function drawBoard(board) {
       gameEnded = board.takeStep(yPos, xPos);
     }
     if (gameEnded) {
-      unhideMines(board); 
-      board.numSpacesLeft? endScreen("lose") : endScreen("win");
-    } 
+      unhideMines(board);
+      board.numSpacesLeft ? endScreen("lose") : endScreen("win");
+    }
     drawBoard(board);
   });
 
@@ -112,12 +110,11 @@ function drawBoard(board) {
     const elementClicked = $(this);
     const xPos = elementClicked.attr("data-x-coordinate");
     const yPos = elementClicked.attr("data-y-coordinate");
-    if (e.which == 3 && gameEnded == false) {   
+    if (e.which == 3 && gameEnded == false) {
       board.toggleFlagSpace(yPos, xPos);
-      drawBoard(board)
+      drawBoard(board);
     }
   });
-  
 }
 
 // /**
@@ -197,7 +194,7 @@ function endScreen(condition) {
   if (condition == "win") {
     alert("You Won!");
   } else {
-    alert("Game Over. Try again?");
+    alert("Game Over. Try again");
   }
   gameEnded = true;
 }
@@ -206,9 +203,9 @@ function endScreen(condition) {
 //Taken from https://stackoverflow.com/questions/20618355/the-simplest-possible-javascript-countdown-timer
 let timer = 0;
 function startTimer(duration, display) {
-  (timer = duration);
+  timer = duration;
   let minutes, seconds;
-  setInterval(function() {
+  var countdown = setInterval(function() {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
 
@@ -218,7 +215,8 @@ function startTimer(duration, display) {
     display.textContent = minutes + ":" + seconds;
 
     if (--timer < 0) {
-      timer = duration;
+      endScreen("lose");
+      clearInterval(countdown);
     }
   }, 1000);
 }
@@ -255,20 +253,18 @@ function show(board) {
       if (!square.isHidden) {
         if (square.isMine) {
           squareElement.addClass("exploded-square");
-        }
-        else {
+        } else {
           squareElement.addClass("empty-square");
-          if(square.numMines != 0) {
+          if (square.numMines != 0) {
             squareElement.html(square.numMines);
           }
         }
-      }
-      else {
+      } else {
         squareElement.addClass("square");
         if (square.isFlagged) {
-        squareElement.addClass("flagged-square");
+          squareElement.addClass("flagged-square");
+        }
       }
-    }
       squareElement.attr("data-x-coordinate", col);
       squareElement.attr("data-y-coordinate", row);
       rowElement.append(squareElement);
@@ -290,5 +286,4 @@ function unhideMines(board, hidden = true) {
     Slot machine heavily adapted from 
     https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator    
 */
-
 
