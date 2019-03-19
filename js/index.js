@@ -102,6 +102,7 @@ function drawBoard(board) {
   show(board);
   $(".square").on("click", function(e) {
     if(!gameEnded) {
+    board.unhideMines(false)
     let xPos = Number($(this).attr("data-x-coordinate"));
     let yPos = Number($(this).attr("data-y-coordinate"));
     console.log("run:" + yPos, xPos);
@@ -121,6 +122,7 @@ function drawBoard(board) {
 
   $(".square").mousedown(function(e) {
     if(!gameEnded) {
+    board.unhideMines(false)
     const elementClicked = $(this);
     const xPos = elementClicked.attr("data-x-coordinate");
     const yPos = elementClicked.attr("data-y-coordinate");
@@ -188,6 +190,9 @@ function removeTime() {
 
 function show(board) {
   $("#game").empty();
+  if(gameEnded) {
+    board.unhideMines();
+  }
   for (let row = 0; row < board.numRows; row++) {
     let rowElement = $("<div>");
     rowElement.addClass("row");
