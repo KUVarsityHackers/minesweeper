@@ -184,20 +184,21 @@ export class Board {
   */
     //generate random number less modulo rows and cols
     //check if this space is unhidden and if it's a mine - never click on a mine
-    let randRow = -1;
-    let randCol = -1;
+    let randRow = Math.floor(Math.random() * this.numRows);
+    let randCol = Math.floor(Math.random() * this.numCols);
 
-
-    do{
+    randCol = Math.floor(Math.random() * this.numCols);
+    console.log(randCol);
+    console.log(randRow);
+   /* while ((this.m_board[randRow][randCol].isHidden 
+          && !this.m_board[randRow][randCol].isMine)){
       randRow = Math.floor(Math.random() * this.numRows);
       randCol = Math.floor(Math.random() * this.numCols); 
-      console.log(randRow);
-    } while (
-      (this.m_board[randRow][randCol].isHidden && !this.m_board[randRow][randCol].isMine)
-    );
+    }*/
 
-
+    console.log(this.m_board[randRow][randCol].isHidden);
     this.m_board[randRow][randCol].isHidden = false;
+    console.log(this.m_board[randRow][randCol].isHidden);
     this.numSpacesLeft--;
   }
   unhideMines(hidden = true) {
