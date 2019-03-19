@@ -231,18 +231,11 @@ window.onload = function() {
 };
 
 function addTime() {
-  let display = document.querySelector("#time");
-  startTimer(timer + 30, display);
+  timer = timer + 30;
 }
 
 function removeTime() {
-  console.log("func run");
-  let display = document.querySelector("#time");
-  if (timer > 30) {
-    startTimer(timer - 30, display);
-  } else {
-    startTimer(0, display);
-  }
+  timer = (timer > 30) ? timer - 30 : 0;
 }
 
 function show(board) {
