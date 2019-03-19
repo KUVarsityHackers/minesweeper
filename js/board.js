@@ -8,6 +8,7 @@ export class Board {
     this.numFlags = flags;
     //this is likely not imortant anymore
     this.numMinesFlagged = 0;
+    this.numSpacesLeft = rows * cols - mines;
     this.m_board = [];
     for (let i = 0; i < rows; i++) {
       this.m_board.push([]);
@@ -23,7 +24,7 @@ export class Board {
   firstStep(row, col) {
     this.placeBombs(row, col);
     this.calculateAround();
-    this.selectSpace(row, col);
+    return this.selectSpace(row, col);
   }
 
   placeBombs(row, col) {
@@ -78,11 +79,13 @@ export class Board {
             if(this.m_board[curRow][curCol].numMines == 0) {
               console.log("Rec unhide: " + curRow + ", " + curCol + " from " + row + ", " + col);
               this.recUnhide(curRow, curCol);
+              this.numSpacesLeft--;
             }
             else {
               console.log("Type: " + String(typeof col));
               console.log("Normal unhide: " + curRow + ", " + curCol + " from " + row + ", " + col + "Max: " + Math.min(row + 2, this.numRows) + ", " + Math.min(col + 2, this.numCols));
               this.m_board[curRow][curCol].isHidden = false;
+              this.numSpacesLeft--;
             }
           }
        }
@@ -125,9 +128,13 @@ export class Board {
       return true;
     } else if (!this.m_board[row][col].isFlagged) {
       this.m_board[row][col].isHidden = false;
-      if(this.m_board[row][col].numMines == 0) {
+      this.numSpacesLeft--;
+      if(this.m_board[row][col].numMines <= 0) {
        this.recUnhide(row, col);
       }
+    }
+    if (!this.numSpacesLeft) {
+      return true;
     }
     return false;
   }
@@ -207,5 +214,6 @@ export class Board {
     }
 
     this.m_board[randRow][randCol].isHidden = false;
+    this.numSpacesLeft--;
   }
 }

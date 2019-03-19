@@ -56,13 +56,14 @@ function drawBoard(board) {
     let yPos = Number($(this).attr("data-y-coordinate"));
     console.log("run:" + yPos, xPos);
     if (!takenFirstStep) {
-      board.firstStep(yPos, xPos);
+      gameEnded = board.firstStep(yPos, xPos);
       takenFirstStep = true;
     } else {
       gameEnded = board.takeStep(yPos, xPos);
     }
     if (gameEnded) {
       unhideMines(board); 
+      board.numSpacesLeft? endScreen("lose") : endScreen("win");
     } 
     drawBoard(board);
   });
