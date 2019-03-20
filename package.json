@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write --no-config **/*.{js,json,css,md}",
-    "documentation": "jsdoc -d documentation index.js"
+    "documentation": "jsdoc -d documentation js/index.js js/board.js js/boardspace.js"
   },
   "husky": {
     "hooks": {
