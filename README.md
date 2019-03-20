@@ -32,8 +32,6 @@ This README was inspired by a variety of other READMEs on GitHub. The list that 
 N-dimensional array was borrowed from [here](https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938).
 
 
-
-
 # KU Varsity Hackers
 
 ## Meeting Documentation
@@ -67,7 +65,7 @@ Remaining communications facilitated by Slack
 ## Individual Contributions
 Nathan - 
 
-Andre - 
+Andre - Andre was responsible for fixing some of the techical logic to make sure it worked. I set up the framework for the modules at the onset, and facilitated testing of the game. I worked a lot on doing code review and checking and thinking through all the edge cases to make sure our game worked in all circumstances.
 
 Michael - Michael was responsible for writing several of the functions in the board.js file (primarily ones that are called by the index.js file), as well as the boardspaces.js file. Michael's primary contribution was the addition of the slot machine, timer, and powerup capabilities. He incorporated the html and javascript for these aspects, making three powerup functions.
 
@@ -97,4 +95,4 @@ Another challenge we faced involved adapting the slot machine so that it only sh
 Certain commits pertained to migrating code between files.  One specific instance was in migrating the JavaScript for the slot machine from the head of the html to the index.js file.  Instead of writing an onclick attribute on the html tag, we instead created an event listener in the index.js file that reacted on a click with the relevant code for the slot machine.  The task proved to be challenging in that it was not readily apparent that this would solve the issue, and prior experience had pointed to simply having an onclick attribute on the html tag for the slot machine button.  After research and troubleshooting, a solution was found.
 
 ## What we would do differently
-Overall, we are much more content with our progress than for project 1. This is because we heeded our advice last time on what we would do differently, namely not make drastic last-minute changes. HOwever, there is always an opportunity for improvement. This time, we would still better define individual tasks. There was some overlap and miscommunication that led to simultaneous work being done and merge conflicts. A lot of this was on bug fixes rather than primary features though. 
+Overall, we are much more content with our progress than for project 1. This is because we heeded our advice last time on what we would do differently, namely not make drastic last-minute changes. However, there is always an opportunity for improvement. This time, we would still better define individual tasks. There was some overlap and miscommunication that led to simultaneous work being done and merge conflicts. A lot of this was on bug fixes rather than primary features though. 
