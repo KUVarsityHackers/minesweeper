@@ -2,6 +2,15 @@ import { BoardSpace } from "./boardspace.js";
 
 export class Board {
   constructor(rows, cols, mines, flags) {
+    
+     /*
+  
+    @pre   none
+    @post  endows board object with desired dimension, number of mines, and number of flags
+    @param rows, cols, mines, and flags where each are of type Number
+  
+    */
+    
     this.numRows = rows;
     this.numCols = cols;
     this.numMines = mines;
@@ -16,17 +25,43 @@ export class Board {
       }
     }
   }
+  
   takeStep(row, col) {
+    /*
+  
+    @pre   none
+    @post  returns method call of selectSpace with row and col
+    @param row and col of user's click
+  
+    */
     return this.selectSpace(row, col);
   }
-
+  
   firstStep(row, col) {
+    
+    /*
+  
+    @pre   step has not already been taken
+    @post places bombs in spaces where step was not taken, calls method calculateAround and selectSpace
+    @param row and col of user's click
+  
+   */
+    
     this.placeBombs(row, col);
     this.calculateAround();
     return this.selectSpace(row, col);
   }
-
+  
   placeBombs(row, col) {
+    
+    /*
+  
+    @pre   first step has been taken
+    @post places bombs randomly in spaces that was not selected by user
+    @param row and col of user's click
+  
+   */
+    
     let maxIndex = this.numRows * this.numCols;
     let mineIndex = new Array(maxIndex - 1).fill(false);
 
@@ -90,6 +125,15 @@ export class Board {
   }
 
   toggleCheatMode(cheatMode){
+    
+     /*
+  
+    @pre   cheatMode button has been pressed
+    @post  If cheatMode has been chosen, reveals bombs on board,and if the button is toggled back then it reverts to prior board
+    @param a boolean that monitors cheatMode button
+  
+    */
+    
     if (cheatMode) {
       this.priorBoard = [];
       for (let i in this.m_board){
@@ -110,6 +154,15 @@ export class Board {
   }
 
   toggleFlagSpace(row, col) {
+    
+     /*
+  
+    @pre   space has not already been revealed
+    @post  toggles flag on a space
+    @param row and col location of user click
+  
+    */
+    
     //see if the space is already flagged
     if (this.m_board[row][col].isFlagged) {
       this.m_board[row][col].isFlagged = false;
@@ -127,12 +180,7 @@ export class Board {
   }
 
   selectSpace(row, col) {
-    /**
-     * Pre: step has to be taken
-     * Post: space revealed and recUnhide called
-     * Args: int row and int col for specifying space
-     * Return: returns true if you lose, else true
-     */
+    //if mine
     if (this.m_board[row][col].isMine) {
       if (this.m_board[row][col].isFlagged) {
         return false;
@@ -152,12 +200,7 @@ export class Board {
   }
 
   userWin() {
-    /**
-     * Pre: none
-     * Post: none
-     * Args: none
-     * Return: true if user wins, else false
-     */
+    //check to see if numMines is equal to unhidden spaces
     unHidden = 0;
     for (let r = 0; r < numRols; r++) {
       for (let c = 0; c < numCols; c++) {
@@ -174,12 +217,6 @@ export class Board {
     }
   }
   calculateAround() {
-    /**
-     * Pre: space revealed
-     * Post: display nuumber of nearby mines on the board
-     * Args: none
-     * Return: none
-     */
     for (let y = 0; y < this.numRows; y++) {
       for (let x = 0; x < this.numCols; x++) {
         this.m_board[y][x].numMines = this.calculateNearby(y, x);
@@ -214,12 +251,6 @@ export class Board {
   }
 
   freeSpaceReveal() {
-    /**
-     * Pre: Must have unclicked space available that's not flagged and not a mine
-     * Post: Reveals one random free space on the board that's not flagged and not a mine
-     * Args: none
-     * Returns: none
-     */
     let randRow;
     let randCol;
     do{
@@ -230,12 +261,6 @@ export class Board {
   }
   
   unhideMines(hidden = true) {
-    /**
-     * Pre: Mines must be planted
-     * Post: Unhides all mines on display
-     * Args: bool hidden
-     * Returns: none
-     */
     for (let x = 0; x < this.numRows; x++) {
       for (let y = 0; y < this.numCols; y++) {
         if (this.m_board[x][y].isMine == true) {
