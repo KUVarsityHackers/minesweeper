@@ -127,7 +127,12 @@ export class Board {
   }
 
   selectSpace(row, col) {
-    //if mine
+    /**
+     * Pre: step has to be taken
+     * Post: space revealed and recUnhide called
+     * Args: int row and int col for specifying space
+     * Return: returns true if you lose, else true
+     */
     if (this.m_board[row][col].isMine) {
       if (this.m_board[row][col].isFlagged) {
         return false;
@@ -147,7 +152,12 @@ export class Board {
   }
 
   userWin() {
-    //check to see if numMines is equal to unhidden spaces
+    /**
+     * Pre: none
+     * Post: none
+     * Args: none
+     * Return: true if user wins, else false
+     */
     unHidden = 0;
     for (let r = 0; r < numRols; r++) {
       for (let c = 0; c < numCols; c++) {
@@ -164,6 +174,12 @@ export class Board {
     }
   }
   calculateAround() {
+    /**
+     * Pre: space revealed
+     * Post: display nuumber of nearby mines on the board
+     * Args: none
+     * Return: none
+     */
     for (let y = 0; y < this.numRows; y++) {
       for (let x = 0; x < this.numCols; x++) {
         this.m_board[y][x].numMines = this.calculateNearby(y, x);
@@ -198,6 +214,12 @@ export class Board {
   }
 
   freeSpaceReveal() {
+    /**
+     * Pre: Must have unclicked space available that's not flagged and not a mine
+     * Post: Reveals one random free space on the board that's not flagged and not a mine
+     * Args: none
+     * Returns: none
+     */
     let randRow;
     let randCol;
     do{
@@ -208,6 +230,12 @@ export class Board {
   }
   
   unhideMines(hidden = true) {
+    /**
+     * Pre: Mines must be planted
+     * Post: Unhides all mines on display
+     * Args: bool hidden
+     * Returns: none
+     */
     for (let x = 0; x < this.numRows; x++) {
       for (let y = 0; y < this.numCols; y++) {
         if (this.m_board[x][y].isMine == true) {
