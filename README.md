@@ -2,6 +2,8 @@
 
 A unique version of the classic computer game "Minesweeper".
 
+### https://kuvarsityhackers.github.io/minesweeper/
+
 ## Get Started Using Project for Developers
 
 1. Clone or download the repo
