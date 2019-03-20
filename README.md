@@ -71,7 +71,7 @@ Andre - Andre was responsible for fixing some of the techical logic to make sure
 
 Michael - Michael was responsible for writing several of the functions in the board.js file (primarily ones that are called by the index.js file), as well as the boardspaces.js file. Michael's primary contribution was the addition of the slot machine, timer, and powerup capabilities. He incorporated the html and javascript for these aspects, making three powerup functions.
 
-Colin - Colin got a lot of the index.js working after the project was restructured to be object oriented. This mainly consisted of of adapting and modularizing the old work. Colin also contributed a lot of the updates that were requested in the new right up, including changing the endgame conditions and adding the cheat mode. He also updated most of the documentation.
+Colin - Colin got a lot of the index.js working after the project was restructured to be object oriented. This mainly consisted of of adapting and modularizing the old work. Colin also contributed a lot of the updates that were requested in the new write up, including changing the endgame conditions and adding the cheat mode. He also updated most of the documentation.
 
 Tiernon - Tiernon migrated code for the slot machine into the js files from html files, ensuring that they maintained functionality. Additionally, Tiernon connected the powerup results to the board, ensuring that a "win" in the slot machine translated into a tangible difference for the user's game.
 
