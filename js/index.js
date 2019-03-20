@@ -53,52 +53,58 @@ window.startGame = function startGame() {
     
       
     slot.onclick  = function(){
-      let one;
-      let two;
-      let three;
-    if (count > 0)    
-      {
-          one = Math.floor((Math.random()*9%3)+1);
-          two = Math.floor((Math.random()*9%3)+1);
-          three = Math.floor((Math.random()*9%3)+1);
-          count--;
+      if(!gameEnded) {
+        let one;
+        let two;
+        let three;
+      if (count > 0)    
+        {
+            one = Math.floor((Math.random()*9%3)+1);
+            two = Math.floor((Math.random()*9%3)+1);
+            three = Math.floor((Math.random()*9%3)+1);
+            count--;
 
-          slot.value = "Spins: " + count;
+            slot.value = "Spins: " + count;
 
-          document.getElementById("num1").innerHTML = one;
-          document.getElementById("num2").innerHTML = two;
-          document.getElementById("num3").innerHTML = three;
+            document.getElementById("num1").innerHTML = one;
+            document.getElementById("num2").innerHTML = two;
+            document.getElementById("num3").innerHTML = three;
 
-          if(count == 0){
-            slot.style.display = "none";
+            if(count == 0){
+              slot.style.display = "none";
+            }
+        setTimeout(function () {
+        if (one == two && one == three)    
+        {
+          if (one == 1)
+          {
+            alert("You just won a free space.");
+            if(takenFirstStep) {
+              board.freeSpaceReveal();
+            }
+            else {
+              let randRow = Math.floor(Math.random() * boardHeight);
+              let randCol = Math.floor(Math.random() * boardWidth);
+              gameEnded = board.firstStep(randRow, randCol);
+              takenFirstStep = true;
+            }
+            drawBoard(board)
           }
-         // board.freeSpaceReveal();
-     
-      //win condition here
-      setTimeout(function () {
-      if (one == two && one == three)    
-      {
-          alert("You just won a free space.");
-          if(takenFirstStep){
-            board.freeSpaceReveal();
+          else if (one == 2)
+          {
+            alert("You just won some free time.");
+            addTime();
           }
-          else{
-            let randRow = Math.floor(Math.random() * this.numRows);
-            let randCol = Math.floor(Math.random() * this.numCols);
-            gameEnded = board.firstStep(randRow, randCol);
-            takenFirstStep = true;
+          else if (one == 3)
+          {
+            alert("You just lost some time.");
+            removeTime();
           }
-          drawBoard(board)
+        }
+        
+        
+      },100);
       }
-      else if(one == two && two == three && one == "1"){
-          alert("You just won some free time.");
-          addTime();
-      }
-      else if(one != two && two != three && one != three){
-        alert("You just lost some time.");
-          removeTime();
-      }
-    },100);
     }
   }
 }
