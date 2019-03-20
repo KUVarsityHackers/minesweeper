@@ -1,4 +1,5 @@
 /*
+
 Powerups:
 1. Extra Time (10%)
 2. Free space reveal (single, random space)
@@ -45,119 +46,103 @@ window.startGame = function startGame() {
     document.getElementById("slot").style.display = "block";
     document.getElementById("resetButton").style.display = "block";
     document.getElementById("cheatMode").style.display = "block";
-    document.getElementById("cheatButton").onclick = () => {toggleCheatMode(board)};
+    document.getElementById("cheatButton").onclick = () => {
+      toggleCheatMode(board);
+    };
 
     let slot = document.getElementById("slotButton");
 
     let count = 8;
-    
-      
-    slot.onclick  = function(){
-      if(!gameEnded) {
-        let one;
-        let two;
-        let three;
-      if (count > 0)    
-        {
-            one = Math.floor((Math.random()*9%3)+1);
-            two = Math.floor((Math.random()*9%3)+1);
-            three = Math.floor((Math.random()*9%3)+1);
-            count--;
 
-            slot.value = "Spins: " + count;
+    slot.onclick = function() {
+      let one;
+      let two;
+      let three;
+      if (count > 0) {
+        one = Math.floor(((Math.random() * 9) % 3) + 1);
+        two = Math.floor(((Math.random() * 9) % 3) + 1);
+        three = Math.floor(((Math.random() * 9) % 3) + 1);
+        count--;
 
-            document.getElementById("num1").innerHTML = one;
-            document.getElementById("num2").innerHTML = two;
-            document.getElementById("num3").innerHTML = three;
+        slot.value = "Spins: " + count;
 
-            if(count == 0){
-              slot.style.display = "none";
-            }
-        setTimeout(function () {
-        if (one == two && one == three)    
-        {
-          if (one == 1)
-          {
+        document.getElementById("num1").innerHTML = one;
+        document.getElementById("num2").innerHTML = two;
+        document.getElementById("num3").innerHTML = three;
+
+        if (count == 0) {
+          slot.style.display = "none";
+        }
+        // board.freeSpaceReveal();
+
+        //win condition here
+        setTimeout(function() {
+          if (one == two && one == three) {
             alert("You just won a free space.");
-            if(takenFirstStep) {
-              board.freeSpaceReveal();
-            }
-            else {
-              let randRow = Math.floor(Math.random() * boardHeight);
-              let randCol = Math.floor(Math.random() * boardWidth);
-              gameEnded = board.firstStep(randRow, randCol);
-              takenFirstStep = true;
-            }
-            drawBoard(board)
-          }
-          else if (one == 2)
-          {
+            board.freeSpaceReveal();
+            drawBoard(board);
+          } else if (one == two || two == three || three == one) {
             alert("You just won some free time.");
             addTime();
-          }
-          else if (one == 3)
-          {
+          } else if (one != two && two != three && one != three) {
             alert("You just lost some time.");
             removeTime();
           }
-        }
-        
-        
-      },100);
+        }, 100);
       }
-    }
+    };
   }
-}
-}
-
+};
 
 function drawBoard(board) {
   show(board);
   $(".square").on("click", function(e) {
-    if(!gameEnded) {
-    board.unhideMines(false)
-    let xPos = Number($(this).attr("data-x-coordinate"));
-    let yPos = Number($(this).attr("data-y-coordinate"));
-    console.log("run:" + yPos, xPos);
-    if (!takenFirstStep) {
-      gameEnded = board.firstStep(yPos, xPos);
-      takenFirstStep = true;
-    } else {
-      gameEnded = board.takeStep(yPos, xPos);
-    }
-    if (gameEnded) {
+    if (!gameEnded) {
+      board.unhideMines(false);
+      let xPos = Number($(this).attr("data-x-coordinate"));
+      let yPos = Number($(this).attr("data-y-coordinate"));
+      console.log("run:" + yPos, xPos);
+      if (!takenFirstStep) {
+        gameEnded = board.firstStep(yPos, xPos);
+        takenFirstStep = true;
+      } else {
+        gameEnded = board.takeStep(yPos, xPos);
+      }
+      if (gameEnded) {
+        drawBoard(board);
+        setTimeout(function() {
+          board.numSpacesLeft ? endScreen("lose") : endScreen("win");
+        }, 200);
+      }
       drawBoard(board);
-      setTimeout( function () {board.numSpacesLeft ? endScreen("lose") : endScreen("win")}, 200);
-    } 
-    drawBoard(board);
     }
   });
 
   $(".square").mousedown(function(e) {
-    if(!gameEnded) {
-    board.unhideMines(false)
-    const elementClicked = $(this);
-    const xPos = elementClicked.attr("data-x-coordinate");
-    const yPos = elementClicked.attr("data-y-coordinate");
-    if (e.which == 3 && gameEnded == false) {
-      board.toggleFlagSpace(yPos, xPos);
-      drawBoard(board);
+    if (!gameEnded) {
+      board.unhideMines(false);
+      const elementClicked = $(this);
+      const xPos = elementClicked.attr("data-x-coordinate");
+      const yPos = elementClicked.attr("data-y-coordinate");
+      if (e.which == 3 && gameEnded == false) {
+        board.toggleFlagSpace(yPos, xPos);
+        drawBoard(board);
+      }
     }
-  }
   });
 }
 
 function toggleCheatMode(board) {
-  if (!takenFirstStep){
+  if (!takenFirstStep) {
     alert("Please select a space before you bother cheating.");
-  }
-  else if (!gameEnded) {
+  } else if (!gameEnded) {
     cheatMode = !cheatMode;
     board.toggleCheatMode(cheatMode);
-    document.getElementById("cheatButton").innerHTML = (cheatMode) ? "Uncheat" : "Cheat";
+    document.getElementById("cheatButton").innerHTML = cheatMode
+      ? "Uncheat"
+      : "Cheat";
     drawBoard(board);
-  }
-  else {
+  } else {
     alert("You cannot cheat. The game is over.");
   }
 }
@@ -168,10 +153,9 @@ function endScreen(condition) {
     alert("You Won!");
   } else if (condition == "time") {
     alert("You ran out of time. Game Over.");
-  }
-  else {
+  } else {
     alert("You dug up a mine. Game Over.");
-}
+  }
 }
 
 //Handle countdown
@@ -194,13 +178,12 @@ function startTimer(duration, display) {
     }
   }, 1000);
 
-  let endTimer  = setInterval(function() {
-    if(gameEnded) {
+  let endTimer = setInterval(function() {
+    if (gameEnded) {
       clearInterval(countdown);
       clearInterval(gameEnded);
     }
   }, 100);
- 
 }
 
 window.onload = function() {
@@ -213,12 +196,12 @@ function addTime() {
 }
 
 function removeTime() {
-  timer = (timer > 30) ? timer - 30 : 0;
+  timer = timer > 30 ? timer - 30 : 0;
 }
 
 function show(board) {
   $("#game").empty();
-  if(gameEnded) {
+  if (gameEnded) {
     board.unhideMines();
   }
   for (let row = 0; row < board.numRows; row++) {
@@ -254,4 +237,3 @@ function show(board) {
     Slot machine heavily adapted from 
     https://codereview.stackexchange.com/questions/51532/html-js-slot-machine-simulator    
 */
-
