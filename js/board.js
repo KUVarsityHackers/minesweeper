@@ -70,39 +70,52 @@ export class Board {
             No return
     */
     this.m_board[row][col].isHidden = false;
-    if (this.m_board[row][col].numMines == 0 && (!this.m_board[row][col].isMine) && (!this.m_board[row][col].isFlagged)) {
-      for (let curRow = Math.max(row - 1, 0); curRow < Math.min(row + 2, this.numRows); curRow++) {
-        for (let curCol = Math.max(col - 1, 0); curCol < Math.min(col + 2, this.numCols); curCol++) {
-          if(this.m_board[curRow][curCol].isHidden && (!this.m_board[curRow][curCol].isMine) && (!this.m_board[curRow][curCol].isFlagged))
-          {
-            if(this.m_board[curRow][curCol].numMines == 0) {
+    if (
+      this.m_board[row][col].numMines == 0 &&
+      !this.m_board[row][col].isMine &&
+      !this.m_board[row][col].isFlagged
+    ) {
+      for (
+        let curRow = Math.max(row - 1, 0);
+        curRow < Math.min(row + 2, this.numRows);
+        curRow++
+      ) {
+        for (
+          let curCol = Math.max(col - 1, 0);
+          curCol < Math.min(col + 2, this.numCols);
+          curCol++
+        ) {
+          if (
+            this.m_board[curRow][curCol].isHidden &&
+            !this.m_board[curRow][curCol].isMine &&
+            !this.m_board[curRow][curCol].isFlagged
+          ) {
+            if (this.m_board[curRow][curCol].numMines == 0) {
               this.recUnhide(curRow, curCol);
               this.numSpacesLeft--;
-            }
-            else {
+            } else {
               this.m_board[curRow][curCol].isHidden = false;
               this.numSpacesLeft--;
             }
           }
-       }
-     }
+        }
+      }
     }
   }
 
-  toggleCheatMode(cheatMode){
+  toggleCheatMode(cheatMode) {
     if (cheatMode) {
       this.priorBoard = [];
-      for (let i in this.m_board){
+      for (let i in this.m_board) {
         this.priorBoard.push([]);
-        for (let j in this.m_board[i]){
+        for (let j in this.m_board[i]) {
           this.priorBoard[i].push(this.m_board[i][j].isHidden);
           this.m_board[i][j].isHidden = false;
         }
       }
-    }
-    else {
-      for (let i in this.priorBoard){
-        for (let j in this.priorBoard[i]){
+    } else {
+      for (let i in this.priorBoard) {
+        for (let j in this.priorBoard[i]) {
           this.m_board[i][j].isHidden = this.priorBoard[i][j];
         }
       }
@@ -113,7 +126,7 @@ export class Board {
     //see if the space is already flagged
     if (this.m_board[row][col].isFlagged) {
       this.m_board[row][col].isFlagged = false;
-      this.numFlags++
+      this.numFlags++;
     }
     //else if the space is not flagged, then remove
     else if (!this.m_board[row][col].isFlagged) {
@@ -136,8 +149,8 @@ export class Board {
     } else if (!this.m_board[row][col].isFlagged) {
       this.m_board[row][col].isHidden = false;
       this.numSpacesLeft--;
-      if(this.m_board[row][col].numMines <= 0) {
-       this.recUnhide(row, col);
+      if (this.m_board[row][col].numMines <= 0) {
+        this.recUnhide(row, col);
       }
     }
     if (!this.numSpacesLeft) {
@@ -183,13 +196,21 @@ export class Board {
         Returns: 
             integer representing nearby mine count
     */
-    if(this.m_board[row][col].isMine) {
+    if (this.m_board[row][col].isMine) {
       return 0;
     }
     let count = 0;
-    for (let i = Math.max(row - 1, 0); i < Math.min(row + 2, this.numRows); i++) {
-      for (let j = Math.max(col - 1, 0); j < Math.min(col + 2, this.numCols); j++) {
-        if (this.m_board[i][j].isMine)  {
+    for (
+      let i = Math.max(row - 1, 0);
+      i < Math.min(row + 2, this.numRows);
+      i++
+    ) {
+      for (
+        let j = Math.max(col - 1, 0);
+        j < Math.min(col + 2, this.numCols);
+        j++
+      ) {
+        if (this.m_board[i][j].isMine) {
           count++;
         }
       }
@@ -200,13 +221,17 @@ export class Board {
   freeSpaceReveal() {
     let randRow;
     let randCol;
-    do{
+    do {
       randRow = Math.floor(Math.random() * this.numRows);
       randCol = Math.floor(Math.random() * this.numCols);
-    } while (!this.m_board[randRow][randCol].isHidden || this.m_board[randRow][randCol].isMine || this.m_board[randRow][randCol].isFlagged);
-    this.recUnhide(randRow,randCol);
+    } while (
+      !this.m_board[randRow][randCol].isHidden ||
+      this.m_board[randRow][randCol].isMine ||
+      this.m_board[randRow][randCol].isFlagged
+    );
+    this.recUnhide(randRow, randCol);
   }
-  
+
   unhideMines(hidden = true) {
     for (let x = 0; x < this.numRows; x++) {
       for (let y = 0; y < this.numCols; y++) {
