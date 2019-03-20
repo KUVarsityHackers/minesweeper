@@ -32,7 +32,7 @@ N-dimensional array was borrowed from [here](https://stackoverflow.com/questions
 
 
 
-## -------------- KU Varsity Hackers ------------------##
+## KU Varsity Hackers
 ## Meeting Documentation
 3/9/19: 9:15am - 10:45am
 Attendees: Nathan, Michael, Tiernon
