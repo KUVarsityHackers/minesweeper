@@ -2,6 +2,8 @@
 
 A unique version of the classic computer game "Minesweeper".
 
+### https://kuvarsityhackers.github.io/minesweeper/
+
 ## Get Started Using Project for Developers
 
 1. Clone or download the repo
@@ -32,8 +34,10 @@ N-dimensional array was borrowed from [here](https://stackoverflow.com/questions
 
 
 
-## -------------- KU Varsity Hackers ------------------##
+# KU Varsity Hackers
+
 ## Meeting Documentation
+
 3/9/19: 9:15am - 10:45am
 Attendees: Nathan, Michael, Tiernon
 Location: LEEP2
@@ -89,6 +93,8 @@ https://stackoverflow.com/questions/20618355/the-simplest-possible-javascript-co
 The initial challenge we faced was inheriting a code base that did not meet project 1 requirements. The game did not function, was not modular, and was poorly organized. This made us decide to rewrite essentially all of the javascript to meet both project 1 and project 2 requirements. We were able to salvage the html and css and adapt it to fit our new js code.
 
 Another challenge we faced involved adapting the slot machine so that it only shows when the board shows up. This issue was resolved by moving the related function calls to within the startGame function in index.js, ensuring that the code wasn't read (thus no slot machine generated) until the actual game starts and the board is generated and shown.
+
+Certain commits pertained to migrating code between files.  One specific instance was in migrating the JavaScript for the slot machine from the head of the html to the index.js file.  Instead of writing an onclick attribute on the html tag, we instead created an event listener in the index.js file that reacted on a click with the relevant code for the slot machine.  The task proved to be challenging in that it was not readily apparent that this would solve the issue, and prior experience had pointed to simply having an onclick attribute on the html tag for the slot machine button.  After research and troubleshooting, a solution was found.
 
 ## What we would do differently
 Overall, we are much more content with our progress than for project 1. This is because we heeded our advice last time on what we would do differently, namely not make drastic last-minute changes. HOwever, there is always an opportunity for improvement. This time, we would still better define individual tasks. There was some overlap and miscommunication that led to simultaneous work being done and merge conflicts. A lot of this was on bug fixes rather than primary features though. 
