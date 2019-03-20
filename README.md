@@ -31,7 +31,7 @@ This README was inspired by a variety of other READMEs on GitHub. The list that 
 
 N-dimensional array was borrowed from [here](https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript/966938#966938).
 
-# KU Varsity Hackers
+## -------------- KU Varsity Hackers ------------------
 
 ## Meeting Documentation
 
@@ -65,9 +65,9 @@ Remaining communications facilitated by Slack
 
 ## Individual Contributions
 
-Nathan -
-
 Andre - Andre was responsible for fixing some of the techical logic to make sure it worked. I set up the framework for the modules at the onset, and facilitated testing of the game. I worked a lot on doing code review and checking and thinking through all the edge cases to make sure our game worked in all circumstances.
+
+Nathan - Nathan was responsible for the board updating functionality. He wrote the show function in the index.js, which changes the class of squares based on the state of the board object. In addition, Nathan completed small tasks such as unhiding the slot machine, making the timer end the game at 0, and working on the object oriented design.
 
 Michael - Michael was responsible for writing several of the functions in the board.js file (primarily ones that are called by the index.js file), as well as the boardspaces.js file. Michael's primary contribution was the addition of the slot machine, timer, and powerup capabilities. He incorporated the html and javascript for these aspects, making three powerup functions.
 
